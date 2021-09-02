@@ -41,7 +41,7 @@ class List(models.Model):
 class Card(models.Model):
     card_title = models.CharField(max_length=100)
     card_desc= RichTextField()
-    card_assigned=models.BooleanField(default=False)
+    is_card_assigned=models.BooleanField(default=False)
     card_mapped_to=models.ForeignKey(List,on_delete=CASCADE)
     card_assigned_to = models.ManyToManyField(Maintainer)
 
