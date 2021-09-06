@@ -1,8 +1,21 @@
+from typing import List
 from django import http
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 import requests
 from requests.api import head
+from rest_framework import status
+from rest_framework import serializers
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.serializers import Serializer
+from .models import Card, Maintainer, Project,List
+from .serializers import CardSerializer, ListSerializer, MaintainerSerializer, ProjectSerializer
+from rest_framework import generics
+from rest_framework import viewsets
+
+
+
 
 # Create your views here.
 def login(request):
@@ -43,3 +56,82 @@ def home(request):
   return HttpResponse(p)
 
 
+# @api_view(['GET','POST'])
+# def maintainer_list(request):
+#   if request.method == 'GET':
+#     Maintainers = Maintainer.objects.all()
+#     serializer = MaintainerSerializer(Maintainers,many =True)
+#     return Response(serializer.data)
+
+#   elif request.method == 'POST':
+#         serializer = MaintainerSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class MaintainerList(generics.ListCreateAPIView):
+#     queryset = Maintainer.objects.all()
+#     serializer_class = MaintainerSerializer
+
+
+# class MaintainerDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Maintainer.objects.all()
+#     serializer_class = MaintainerSerializer
+
+class MaintainerViewSet(viewsets.ModelViewSet):
+
+    queryset = Maintainer.objects.all()
+    serializer_class = MaintainerSerializer
+    #permission_classes = [IsAccountAdminOrReadOnly]
+
+class ProjectViewSet(viewsets.ModelViewSet):
+
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    # permission_classes = [IsAccountAdminOrReadOnly]
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        new_project = Project.objects.create(
+            project_name=data["project_name"], project_desc=data['project_desc']) 
+
+        for maintainers in data["project_maintained_by"]:
+            module1 = Maintainer.objects.get(name=maintainers["name"])
+            new_project.project_maintained_by.add(module1)
+            new_project.save()
+
+        serializer = ProjectSerializer(new_project)
+    # def update(self, request, *args, **kwargs):
+    #     data = request.data
+    #     new_project = Project.objects.get(
+    #         project_name=data["project_name"]) 
+
+    #     for maintainers in data["project_maintained_by"]:
+    #         module1 = Maintainer.objects.get(name=maintainers["name"])
+    #         new_project.project_maintained_by.add(module1)
+    #         new_project.save()
+
+        # serializer = ProjectSerializer(new_project)
+
+        return Response(serializer.data)
+    # def post(self, request, format=None):
+    #     serializer = ProjectSerializer(data=request.data)
+    #     print(serializer.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ListViewSet(viewsets.ModelViewSet):
+
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+    #permission_classes = [IsAccountAdminOrReadOnly]
+
+class CardViewSet(viewsets.ModelViewSet):
+
+    queryset = Card.objects.all()
+    serializer_class = CardSerializer
+    #permission_classes = [IsAccountAdminOrReadOnly]
