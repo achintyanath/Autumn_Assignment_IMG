@@ -1,16 +1,16 @@
-from typing import List
+
 from django import http
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 import requests
-from requests.api import head
+from requests.api import get, head
 from rest_framework import status
 from rest_framework import serializers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
-from .models import Card, Maintainer, Project,List
-from .serializers import CardSerializer, ListSerializer, MaintainerSerializer, ProjectSerializer
+from .models import Card, Comment, Maintainer, Project,List
+from .serializers import CardSerializerElse, CardSerializerGet, CommentSerializer, ListSerializer, MaintainerSerializer, ProjectSerializerGet, ProjectSerializerElse
 from rest_framework import generics
 from rest_framework import viewsets
 
@@ -86,22 +86,30 @@ class MaintainerViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAccountAdminOrReadOnly]
 
 class ProjectViewSet(viewsets.ModelViewSet):
-
+    
     queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
+    def get_serializer_class(self):
+        if self.action == 'get' or self.action=='list' or self.action=='retrieve' :
+            return ProjectSerializerGet
+        else:
+            return ProjectSerializerElse
+
+ 
+    #    serializer_class = ProjectSerializer2
+    
     # permission_classes = [IsAccountAdminOrReadOnly]
 
-    def create(self, request, *args, **kwargs):
-        data = request.data
-        new_project = Project.objects.create(
-            project_name=data["project_name"], project_desc=data['project_desc']) 
+    # def create(self, request, *args, **kwargs):
+    #     data = request.data
+    #     new_project = Project.objects.create(
+    #         project_name=data["project_name"], project_desc=data['project_desc']) 
 
-        for maintainers in data["project_maintained_by"]:
-            module1 = Maintainer.objects.get(name=maintainers["name"])
-            new_project.project_maintained_by.add(module1)
-            new_project.save()
+    #     for maintainers in data["project_maintained_by"]:
+    #         module1 = Maintainer.objects.get(name=maintainers["name"])
+    #         new_project.project_maintained_by.add(module1)
+    #         new_project.save()
 
-        serializer = ProjectSerializer(new_project)
+    #     serializer = ProjectSerializer(new_project)
     # def update(self, request, *args, **kwargs):
     #     data = request.data
     #     new_project = Project.objects.get(
@@ -114,7 +122,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         # serializer = ProjectSerializer(new_project)
 
-        return Response(serializer.data)
+        #return Response(serializer.data)
     # def post(self, request, format=None):
     #     serializer = ProjectSerializer(data=request.data)
     #     print(serializer.data)
@@ -127,11 +135,33 @@ class ProjectViewSet(viewsets.ModelViewSet):
 class ListViewSet(viewsets.ModelViewSet):
 
     queryset = List.objects.all()
+
     serializer_class = ListSerializer
     #permission_classes = [IsAccountAdminOrReadOnly]
 
 class CardViewSet(viewsets.ModelViewSet):
 
     queryset = Card.objects.all()
-    serializer_class = CardSerializer
+    def get_serializer_class(self):
+        if self.action == 'get' or self.action=='list' or self.action=='retrieve' :
+            return CardSerializerGet
+        else:
+            return CardSerializerElse
+    #serializer_class = CardSerializer
+    #permission_classes = [IsAccountAdminOrReadOnly]
+
+class CardViewSet(viewsets.ModelViewSet):
+
+    queryset = Card.objects.all()
+    def get_serializer_class(self):
+        if self.action == 'get' or self.action=='list' or self.action=='retrieve' :
+            return CardSerializerGet
+        else:
+            return CardSerializerElse
+
+class CommentViewSet(viewsets.ModelViewSet):
+
+    queryset = Comment.objects.all()
+
+    serializer_class = CommentSerializer
     #permission_classes = [IsAccountAdminOrReadOnly]
