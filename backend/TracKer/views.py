@@ -135,7 +135,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 class ListViewSet(viewsets.ModelViewSet):
 
     queryset = List.objects.all()
-
     serializer_class = ListSerializer
     #permission_classes = [IsAccountAdminOrReadOnly]
 
@@ -150,18 +149,8 @@ class CardViewSet(viewsets.ModelViewSet):
     #serializer_class = CardSerializer
     #permission_classes = [IsAccountAdminOrReadOnly]
 
-class CardViewSet(viewsets.ModelViewSet):
-
-    queryset = Card.objects.all()
-    def get_serializer_class(self):
-        if self.action == 'get' or self.action=='list' or self.action=='retrieve' :
-            return CardSerializerGet
-        else:
-            return CardSerializerElse
-
 class CommentViewSet(viewsets.ModelViewSet):
 
     queryset = Comment.objects.all()
-
     serializer_class = CommentSerializer
     #permission_classes = [IsAccountAdminOrReadOnly]
