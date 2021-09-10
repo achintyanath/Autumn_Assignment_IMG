@@ -5,6 +5,7 @@ class IsAdmin(permissions.BasePermission):
     Check if the user is admin or not 
     """
     def has_object_permission(self, request, view, obj):
+        print(request.user.admin)
         return request.user.admin
         
 
@@ -61,7 +62,7 @@ class CardAssignedToProjectMaintainer(permissions.BasePermission):
             return True
         else:
                 
-                print(view)
+                print()
                 #maintainers_list = data["card_assigned_to"]
                 # list_mapped_to1= obj.card_mapped_to
                 # list_project = list_mapped_to1.list_mapped_to

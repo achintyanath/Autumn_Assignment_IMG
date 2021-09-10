@@ -8,7 +8,7 @@ import requests
 from requests.api import get, head
 from rest_framework import status
 from rest_framework import serializers
-from rest_framework.decorators import api_view
+from rest_framework.decorators import action, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
@@ -76,7 +76,7 @@ def home(request):
     else:
         return HttpResponse("Made By IMG and Just for IMG")
 
-  return HttpResponse(p)
+  return redirect("http://127.0.0.1:8000/TracKer/maintainer/")
 
 
 def logout2(request):
@@ -88,6 +88,22 @@ class MaintainerViewSet(viewsets.ModelViewSet):
     queryset = Maintainer.objects.all()
     serializer_class = MaintainerSerializer
     permission_classes = [IsAuthenticated]
+
+    @action(methods=['get'],permission_classes=[IsAdmin&IsAuthenticated],detail=True, url_path='ban', url_name='ban')
+    def Ban(self, request, pk): 
+        maintainer_to_be_banned=Maintainer.objects.get(pk=pk)
+        maintainer_to_be_banned.disable = not maintainer_to_be_banned.disable
+        maintainer_to_be_banned.save()
+
+        return redirect(f"http://127.0.0.1:8000/TracKer/maintainer/{pk}/") #return something else di=uring frontend development
+
+    @action(detail=True, url_path='changeadmin', url_name='Change Admin',permission_classes=[IsAdmin&IsAuthenticated])
+    def Change_Admin_Status(self, request, pk): 
+        maintainer_to_be_banned=Maintainer.objects.get(pk=pk)
+        maintainer_to_be_banned.admin = not maintainer_to_be_banned.admin
+        maintainer_to_be_banned.save()
+
+        return redirect(f"http://127.0.0.1:8000/TracKer/maintainer/{pk}/")
 
 class ProjectViewSet(viewsets.ModelViewSet):
     
@@ -101,37 +117,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
     
     permission_classes = [IsAuthenticated&(IsAdmin|ProjectMaintainerForProject)]
 
-    # def create(self, request, *args, **kwargs):
-    #     data = request.data
-    #     new_project = Project.objects.create(
-    #         project_name=data["project_name"], project_desc=data['project_desc']) 
 
-    #     for maintainers in data["project_maintained_by"]:
-    #         module1 = Maintainer.objects.get(name=maintainers["name"])
-    #         new_project.project_maintained_by.add(module1)
-    #         new_project.save()
 
-    #     serializer = ProjectSerializer(new_project)
-    # def update(self, request, *args, **kwargs):
-    #     data = request.data
-    #     new_project = Project.objects.get(
-    #         project_name=data["project_name"]) 
-
-    #     for maintainers in data["project_maintained_by"]:
-    #         module1 = Maintainer.objects.get(name=maintainers["name"])
-    #         new_project.project_maintained_by.add(module1)
-    #         new_project.save()
-
-        # serializer = ProjectSerializer(new_project)
-
-        #return Response(serializer.data)
-    # def post(self, request, format=None):
-    #     serializer = ProjectSerializer(data=request.data)
-    #     print(serializer.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ListViewSet(viewsets.ModelViewSet):
@@ -155,21 +142,18 @@ class CardViewSet(viewsets.ModelViewSet):
             return CardSerializerElse
     permission_classes = [IsAuthenticated&(IsAdmin|ProjectMaintainerForCard)]
 
-    def perform_update(self, serializer):
-            data = self.request.data
-            maintainers_list = data["card_assigned_to"]
-            
-            # list_mapped_to1= self.card_mapped_to
-            # list_project = list_mapped_to1.list_mapped_to
-            # for maintainer in maintainers_list:
-            #      if maintainer not in list_project.project_maintained_by.all():
-            #              raise ValidationError('Can be assigned to A project Member')
-            instance = serializer.save()
+    # def perform_update(self, serializer):
+    #         data = self.request.data
+    #         maintainers_list = data["card_assigned_to"]
+    #         obj = Card.objects.get(id = pk)
+    #         list_mapped_to1= obj.card_mapped_to
+    #         # list_project = list_mapped_to1.list_mapped_to
+    #         # for maintainer in maintainers_list:
+    #         #      if maintainer not in list_project.project_maintained_by.all():
+    #         #              raise ValidationError('Can be assigned to A project Member')
+    #         print(obj)
+    #         instance = serializer.save()
 
-
-    def get_object(self):
- 
-        return Card.objects.get(pk=self.kwargs['pk'])
 
 class CommentViewSet(viewsets.ModelViewSet):
 
