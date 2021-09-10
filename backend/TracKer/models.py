@@ -43,9 +43,8 @@ class List(models.Model):
 class Card(models.Model):
     card_title = models.CharField(max_length=100)
     card_desc= RichTextField()
-    is_card_assigned=models.BooleanField(default=False)
     card_mapped_to=models.ForeignKey(List,related_name="card_in_list",on_delete=CASCADE)
-    card_assigned_to = models.ManyToManyField(Maintainer)
+    card_assigned_to = models.ManyToManyField(Maintainer,blank=True)
 
     def __str__(self):
         return f"{self.card_title}"

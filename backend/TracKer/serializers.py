@@ -25,21 +25,18 @@ class CommentSerializerGet(serializers.ModelSerializer):
 
 class CardSerializerGet(serializers.ModelSerializer):
     comments_in_card=CommentSerializerGet(many=True)
-    #card_mapped_to = serializers.StringRelatedField()
     class Meta:
         model = Card
-        fields = ['id','card_title', 'card_desc', 'is_card_assigned', 'card_mapped_to', 'card_assigned_to','comments_in_card']
+        fields = ['id','card_title', 'card_desc',  'card_mapped_to', 'card_assigned_to','comments_in_card']
         depth=1
 
 class CardSerializerElse(serializers.ModelSerializer):
     class Meta:
         model = Card
-        fields = ['id','card_title', 'card_desc', 'is_card_assigned', 'card_mapped_to', 'card_assigned_to']
+        fields = ['id','card_title', 'card_desc',  'card_mapped_to', 'card_assigned_to']
 
 
 class ListSerializerElse(serializers.ModelSerializer):
-    #card_in_list=CardSerializerGet(many=True)
-    #,'card_in_list'
     class Meta:
         model = List
         fields = ['id','list_name', 'list_mapped_to']

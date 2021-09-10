@@ -1,4 +1,4 @@
-from TracKer.permission import CardAssignedToProjectMaintainer, CommentedByUser, IsAdmin, ProjectMaintainerForCard, ProjectMaintainerForList, ProjectMaintainerForProject
+from TracKer.permission import CommentedByUser, IsAdmin, ProjectMaintainerForCard, ProjectMaintainerForList, ProjectMaintainerForProject
 from re import T
 from django import http
 from django.http.response import HttpResponse
@@ -150,6 +150,7 @@ class CardViewSet(viewsets.ModelViewSet):
                          raise ValidationError('This can be assigned only to a project member') #response will change depending on frontend
  
             instance = serializer.save()
+
 
 
 class CommentViewSet(viewsets.ModelViewSet):

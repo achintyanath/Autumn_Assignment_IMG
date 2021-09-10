@@ -5,15 +5,12 @@ class IsAdmin(permissions.BasePermission):
     Check if the user is admin or not 
     """
     def has_object_permission(self, request, view, obj):
-
         return request.user.admin
-        
+
 
 class ProjectMaintainerForProject(permissions.BasePermission):
-
     
     def has_object_permission(self, request, view, obj):
-
         if request.method=='GET' or request.method== 'POST':
             return True
         else:
@@ -23,14 +20,12 @@ class ProjectMaintainerForProject(permissions.BasePermission):
             else:
                 return False
 
-class ProjectMaintainerForList(permissions.BasePermission):
 
-    
+class ProjectMaintainerForList(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
             if request.method=='GET' :
                 return True
             else:
-
                 user = request.user
                 list_project = obj.list_mapped_to
                 if  user in list_project.project_maintained_by.all():
@@ -38,10 +33,9 @@ class ProjectMaintainerForList(permissions.BasePermission):
                 else:
                     return False
 
-class ProjectMaintainerForCard(permissions.BasePermission):
-    
-    def has_object_permission(self, request, view, obj):
 
+class ProjectMaintainerForCard(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
         if request.method=='GET':
             return True
         else:
@@ -56,12 +50,8 @@ class ProjectMaintainerForCard(permissions.BasePermission):
                 return False
 
 
-
 class CommentedByUser(permissions.BasePermission):
-
-    
-    def has_object_permission(self, request, view, obj):
-           
+    def has_object_permission(self, request, view, obj):  
         if request.method=='GET' or request.method== 'POST':
             return True
         else:

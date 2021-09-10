@@ -14,7 +14,5 @@ urlpatterns = [
     path('login',login1,name='login'),
     path('home',home,name='home'),
     path('logout',logout2,name='logout'),
-    #path('maintainerlist',MaintainerViewSet.as_view(),name='maintainerlist'),
-    #path('maintainerdetail/<int:pk>',MaintainerDetail.as_view(),name='maintainerdetail'),
 ]
 urlpatterns+=router.urls
