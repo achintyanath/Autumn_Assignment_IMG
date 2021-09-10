@@ -3,10 +3,48 @@ from ckeditor.fields import RichTextField
 from django.db.models.base import Model
 from django.db.models.deletion import CASCADE
 from django.db.models.expressions import F
+from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 
-# Create your models here.
-class Maintainer(models.Model):
-    name=models.CharField(max_length=100)
+#Create your models here.
+# class Maintainer(AbstractUser):
+
+#     name=models.CharField(max_length=100,unique=True,null=False)
+#     USERNAME_FIELD = 'name'
+#     class Year(models.IntegerChoices):
+#         FIRST = 1
+#         SECOND = 2
+#         THIRD = 3
+#         FOURTH = 4
+#         FIFTH = 5
+
+#     year=models.IntegerField(choices=Year.choices)
+#     admin = models.BooleanField(default=False)
+#     disable = models.BooleanField(default=False)
+
+#     def __str__(self):
+#        
+# class User(AbstractUser):
+
+#     name=models.CharField(max_length=100,unique=True,null=False)
+
+#     class Year1(models.IntegerChoices):
+#         FIRST = 1
+#         SECOND = 2
+#         THIRD = 3
+#         FOURTH = 4
+#         FIFTH = 5
+
+#     year1=models.IntegerField(choices=Year1.choices)
+#     admin = models.BooleanField(default=False)
+#     disable = models.BooleanField(default=False)
+
+#     def __str__(self):
+#          return f"{self.name}"
+class Maintainer(AbstractBaseUser):
+
+    name=models.CharField(max_length=100,unique=True,null=False)
+    enrollment_number=models.IntegerField(default=20114000)
+    USERNAME_FIELD='name'
     class Year(models.IntegerChoices):
         FIRST = 1
         SECOND = 2
@@ -19,8 +57,7 @@ class Maintainer(models.Model):
     disable = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.name}"
-
+         return f"{self.name}"
 
 class Project(models.Model):
     project_name=models.CharField(max_length=100)
@@ -57,14 +94,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.commented_by}"
-
-
-
-
-
-
-
-
-
-
 

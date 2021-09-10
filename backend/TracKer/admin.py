@@ -1,4 +1,4 @@
-from .models import Card, Comment, List, Maintainer, Project
+from .models import Card, Comment, List, Maintainer,  Project
 from django.contrib import admin
 
 # Register your models here.

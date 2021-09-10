@@ -9,7 +9,14 @@ class MaintainerSerializer(serializers.ModelSerializer):
         model = Maintainer
         fields = ['id','name', 'year', 'admin', 'disable']
 
-class CommentSerializer(serializers.ModelSerializer):
+class CommentSerializerElse(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ['id','comment_desc', 'comment_time', 'comment_mapped_to', 'commented_by']
+        #depth = 1
+
+class CommentSerializerGet(serializers.ModelSerializer):
     commented_by=Maintainer
     class Meta:
         model = Comment
@@ -17,7 +24,7 @@ class CommentSerializer(serializers.ModelSerializer):
         depth = 1
 
 class CardSerializerGet(serializers.ModelSerializer):
-    comments_in_card=CommentSerializer(many=True)
+    comments_in_card=CommentSerializerGet(many=True)
     #card_mapped_to = serializers.StringRelatedField()
     class Meta:
         model = Card
@@ -30,11 +37,25 @@ class CardSerializerElse(serializers.ModelSerializer):
         fields = ['id','card_title', 'card_desc', 'is_card_assigned', 'card_mapped_to', 'card_assigned_to']
 
 
-class ListSerializer(serializers.ModelSerializer):
+class ListSerializerElse(serializers.ModelSerializer):
+    #card_in_list=CardSerializerGet(many=True)
+    #,'card_in_list'
+    class Meta:
+        model = List
+        fields = ['id','list_name', 'list_mapped_to']
+
+class ListSerializerGet(serializers.ModelSerializer):
     card_in_list=CardSerializerGet(many=True)
+    
     class Meta:
         model = List
         fields = ['id','list_name', 'list_mapped_to','card_in_list']
+
+class ListSerializerElse(serializers.ModelSerializer):
+
+    class Meta:
+        model = List
+        fields = ['id','list_name', 'list_mapped_to']
 
 
 class ProjectSerializerElse(serializers.ModelSerializer):
@@ -45,7 +66,7 @@ class ProjectSerializerElse(serializers.ModelSerializer):
 
 
 class ProjectSerializerGet(serializers.ModelSerializer):
-    lists_in_project = ListSerializer(many=True)
+    lists_in_project = ListSerializerGet(many=True)
     class Meta:
         model = Project
         fields = ['id','project_name', 'project_desc', 'project_maintained_by','lists_in_project']
