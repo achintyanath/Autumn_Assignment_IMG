@@ -5,41 +5,6 @@ from django.db.models.deletion import CASCADE
 from django.db.models.expressions import F
 from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 
-#Create your models here.
-# class Maintainer(AbstractUser):
-
-#     name=models.CharField(max_length=100,unique=True,null=False)
-#     USERNAME_FIELD = 'name'
-#     class Year(models.IntegerChoices):
-#         FIRST = 1
-#         SECOND = 2
-#         THIRD = 3
-#         FOURTH = 4
-#         FIFTH = 5
-
-#     year=models.IntegerField(choices=Year.choices)
-#     admin = models.BooleanField(default=False)
-#     disable = models.BooleanField(default=False)
-
-#     def __str__(self):
-#        
-# class User(AbstractUser):
-
-#     name=models.CharField(max_length=100,unique=True,null=False)
-
-#     class Year1(models.IntegerChoices):
-#         FIRST = 1
-#         SECOND = 2
-#         THIRD = 3
-#         FOURTH = 4
-#         FIFTH = 5
-
-#     year1=models.IntegerField(choices=Year1.choices)
-#     admin = models.BooleanField(default=False)
-#     disable = models.BooleanField(default=False)
-
-#     def __str__(self):
-#          return f"{self.name}"
 class Maintainer(AbstractBaseUser):
 
     name=models.CharField(max_length=100,unique=True,null=False)
