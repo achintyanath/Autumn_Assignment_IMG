@@ -1,5 +1,5 @@
 from django.urls import path
-from TracKer.views import CardViewSet, CommentViewSet, MaintainerViewSet, home,login1,ProjectViewSet,ListViewSet, logout2
+from TracKer.views import CardViewSet, CommentViewSet, MaintainerViewSet,ProjectViewSet,ListViewSet, home, login1, logout2
 from rest_framework import routers
 
 router = routers.DefaultRouter()
