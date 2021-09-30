@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ty%g12b*74k7-10wepjd=rs)(4rxhkrq!2%wh4o)+stm3sr@fx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,13 +41,23 @@ INSTALLED_APPS = [
     'rest_framework',
     'TracKer',
     'corsheaders',
+    'rest_framework_simplejwt',
    # 'rest_framework.authtoken',
 
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+        
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # ]
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -79,7 +89,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+     'http://localhost:3000',
+     'http://localhost:8000',
+ ]
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

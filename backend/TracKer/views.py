@@ -13,6 +13,9 @@ from .serializers import CardSerializerElse, CardSerializerGet,  CommentSerializ
 from rest_framework import viewsets
 from django.contrib.auth import  login, logout
 from django.core.exceptions import ValidationError
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 
 def login1(request):
@@ -25,53 +28,53 @@ def login1(request):
   return redirect(r.url)
  #@action(methods=['get'],detail=False, url_path='home', url_name='home')
 
-def home(request):
-  code = request.GET['code']
-  data = {
-     'client_id' : 'EmokDB3z2HAFDN4Wr37yf0wBuzT0ZVFIYgYOcVTQ',
-     'client_secret':'63OF6z9LJYzU81olw6MkHxehLdlRGnAEifWty1A0AGJp47ftD5eqcW7Q5CFXKgviREn5QXJuKjTnO31RaX2SV8xH9YzqKHJmbeSIZU4tt8qiyPS9fpfkjj2yJPUSEaca',
-     'grant_type':'authorization_code',
-     'redirect_uri':'http://127.0.0.1:8000/TracKer/home',
-     'code':code
-   }
+# def home(request):
+#   code = request.GET['code']
+#   data = {
+#      'client_id' : 'EmokDB3z2HAFDN4Wr37yf0wBuzT0ZVFIYgYOcVTQ',
+#      'client_secret':'63OF6z9LJYzU81olw6MkHxehLdlRGnAEifWty1A0AGJp47ftD5eqcW7Q5CFXKgviREn5QXJuKjTnO31RaX2SV8xH9YzqKHJmbeSIZU4tt8qiyPS9fpfkjj2yJPUSEaca',
+#      'grant_type':'authorization_code',
+#      'redirect_uri':'http://127.0.0.1:8000/TracKer/home',
+#      'code':code
+#    }
 
-  r= requests.post("https://channeli.in/open_auth/token/",data=data)
+#   r= requests.post("https://channeli.in/open_auth/token/",data=data)
   
-  access_token = (r.json()["access_token"])
-  print(access_token)
-  header= {
-    "Authorization" : "Bearer "+access_token
-  }
+#   access_token = (r.json()["access_token"])
+#   print(access_token)
+#   header= {
+#     "Authorization" : "Bearer "+access_token
+#   }
 
-  p = requests.get("https://channeli.in/open_auth/get_user_data/", headers=header)
+#   p = requests.get("https://channeli.in/open_auth/get_user_data/", headers=header)
  
       
-  received_data= p.json()
-  enroll = received_data["student"]["enrolmentNumber"]
-  try:
-      maintainer= Maintainer.objects.get(enrollment_number = enroll)
-      if(not maintainer.disable):
-        print("directly herre")
-        login(request,maintainer)
-      else:
-        logout(request,maintainer)
-  except: 
-    status = received_data["person"]["roles"]
-    if(status[1]["role"]=="Maintainer" and status[1]["activeStatus"]=="ActiveStatus.IS_ACTIVE"):
-        name = received_data["person"]["fullName"]
-        year = received_data["student"]["currentYear"]
-        isAdmin = False
-        if(enroll=="20114000"):
-            isAdmin = True
-        isDisabled=False
-        maintainer = Maintainer(name=name, enrollment_number=enroll,year = year, admin=isAdmin,disable= isDisabled)
-        maintainer.save()
-        print("now here")
-        login(request, maintainer)
-    else:
-        return HttpResponse({"status" : "notInIMG"})
+#   received_data= p.json()
+#   enroll = received_data["student"]["enrolmentNumber"]
+#   try:
+#       maintainer= Maintainer.objects.get(enrollment_number = enroll)
+#       if(not maintainer.disable):
+#         print("directly herre")
+#         login(request,maintainer)
+#       else:
+#         logout(request,maintainer)
+#   except: 
+#     status = received_data["person"]["roles"]
+#     if(status[1]["role"]=="Maintainer" and status[1]["activeStatus"]=="ActiveStatus.IS_ACTIVE"):
+#         name = received_data["person"]["fullName"]
+#         year = received_data["student"]["currentYear"]
+#         isAdmin = False
+#         if(enroll=="20114000"):
+#             isAdmin = True
+#         isDisabled=False
+#         maintainer = Maintainer(name=name, enrollment_number=enroll,year = year, admin=isAdmin,disable= isDisabled)
+#         maintainer.save()
+#         print("now here")
+#         login(request, maintainer)
+#     else:
+#         return HttpResponse({"status" : "notInIMG"})
 
-  return HttpResponse("Done")
+#   return HttpResponse("Done")
 
 
 def logout2(request):
@@ -82,8 +85,16 @@ class MaintainerViewSet(viewsets.ModelViewSet):
 
     queryset = Maintainer.objects.all()
     serializer_class = MaintainerSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
+    def get_tokens_for_user(user):
+        refresh = RefreshToken.for_user(user)
+
+        return {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            }
+        
     @action(methods=['get'],permission_classes=[IsAdmin&IsAuthenticated],detail=True, url_path='ban', url_name='ban')
     def Ban(self, request, pk): 
         maintainer_to_be_banned=Maintainer.objects.get(pk=pk)
@@ -102,7 +113,6 @@ class MaintainerViewSet(viewsets.ModelViewSet):
 
     @action(methods=['get'],detail=False, url_path='home', url_name='home',permission_classes=[AllowAny])
     def home(self,request):
-
         code = request.GET["code"]
         print("code"+code)
         data = {
@@ -132,6 +142,18 @@ class MaintainerViewSet(viewsets.ModelViewSet):
             if(not maintainer.disable):
                 print("directly herre")
                 login(request,maintainer)
+
+                
+                refresh = RefreshToken.for_user(maintainer)
+
+                res =  {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                    'user_id': maintainer.id
+                    }
+
+                print(res)
+                
             else:
                 logout(request,maintainer)
         except: 
@@ -145,19 +167,36 @@ class MaintainerViewSet(viewsets.ModelViewSet):
                 isDisabled=False
                 maintainer = Maintainer(name=name, enrollment_number=enroll,year = year, admin=isAdmin,disable= isDisabled)
                 maintainer.save()
-                print("now here")
+
+                
+                refresh = RefreshToken.for_user(maintainer)
+
+                res =  {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                    'user_id': maintainer.id
+                    }
+                print("res")
                 login(request, maintainer)
             else:
-                return Response({"status" : "notInIMG"})
-
-        return Response({"status" : "verified"})
+                res = Response({"status" : "notInIMG"})
+                # res['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+                # res['Access-Control-Allow-Credentials'] = 'true'
+                return res
+             
+        r1 = Response(res)
+        # r1['Access-Control-Allow-Origin'] = 'http://127.0.0.1:3000'
+        # r1['Access-Control-Allow-Credentials'] = 'true'
+            #res.set_cookie(key='project_manager', value=str(data_dict['userId']) + '__' + user_token.key, max_age = 30*24*60*60)
+        # print(res)
+        return r1
 
 
 
         
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    
+    # authentication_classes = [IsAuthenticated]
     queryset = Project.objects.all()
     def get_serializer_class(self):
         if self.action == 'get' or self.action=='list' or self.action=='retrieve' :

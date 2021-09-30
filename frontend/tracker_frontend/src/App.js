@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Login from "./components/Login";
+import Project from "./components/Project";
 import {
   BrowserRouter as Router,
   Switch,
@@ -19,6 +20,9 @@ function App() {
           </Route>
           <Route path="/login">
             <Loginauth />
+          </Route>
+          <Route path="/project">
+            <Project />
           </Route>
         </Switch>
     </Router>

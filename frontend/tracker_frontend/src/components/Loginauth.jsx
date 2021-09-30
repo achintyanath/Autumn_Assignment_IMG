@@ -1,31 +1,58 @@
 import axios from "axios";
 import React from "react";
+import { useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
+
+function Loginauth(){
 
 
-class Loginauth extends React.Component{
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = searchParams.get('code')
+    const state = searchParams.get('state')
+    useEffect(() => {
+    //   axios({
+    //     method:'get',
+    //     url: "",
+    //     // headers:{
+    //     //     'Content-Type':'application/json',
+    //     // },
+    //     //withCredentials: true,
+    //     params:{
+           
+    //     }
+    // })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+      axios.get(`http://127.0.0.1:8000/TracKer/maintainer/home/?code=${code}`)
+      .then(function (response) {
+        console.log(response);
+        localStorage.setItem('access_token', response.data.access);
+        localStorage.setItem('refresh_token', response.data.refresh);
+      })
+      .catch(function (error) {
+        console.log(error);
+      }); 
+      
 
-    constructor() {
-        super();
-        const searchParams = new URLSearchParams(window.location.search);
-        const code = searchParams.get('code')
-        const state = searchParams.get('state')
-        this.state = { code :code ,state:state};
-      }
+    });
 
-    componentDidMount() {
-       
-      }
-    
-   render(){
      return (
          <div>
-        {console.log(this.state.code)}
+        {console.log(code)}
         {/* {console.log(state)} */}
-             In Login Auth
+        <button onClick={()=>{window.location= "http://127.0.0.1:3000/project"}}>hi</button> 
          </div>
      )  
    } 
 
-    
-}
  export default Loginauth;
