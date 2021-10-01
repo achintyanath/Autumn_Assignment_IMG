@@ -16,23 +16,6 @@ function Loginauth(){
     const code = searchParams.get('code')
     const state = searchParams.get('state')
     useEffect(() => {
-    //   axios({
-    //     method:'get',
-    //     url: "",
-    //     // headers:{
-    //     //     'Content-Type':'application/json',
-    //     // },
-    //     //withCredentials: true,
-    //     params:{
-           
-    //     }
-    // })
-    //   .then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
       axios.get(`http://127.0.0.1:8000/TracKer/maintainer/home/?code=${code}`)
       .then(function (response) {
         console.log(response);
@@ -42,8 +25,6 @@ function Loginauth(){
       .catch(function (error) {
         console.log(error);
       }); 
-      
-
     });
 
      return (
