@@ -113,6 +113,7 @@ class MaintainerViewSet(viewsets.ModelViewSet):
 
     @action(methods=['get'],detail=False, url_path='home', url_name='home',permission_classes=[AllowAny])
     def home(self,request):
+
         code = request.GET["code"]
         print("code"+code)
         data = {
@@ -142,20 +143,23 @@ class MaintainerViewSet(viewsets.ModelViewSet):
             if(not maintainer.disable):
                 print("directly herre")
                 login(request,maintainer)
-
-                
                 refresh = RefreshToken.for_user(maintainer)
-
                 res =  {
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
-                    'user_id': maintainer.id
-                    }
-
+                    'user_id': maintainer.id,
+                    'user_name' :maintainer.name,
+                    'isAdmin' : maintainer.admin,
+                    'isBanned' : maintainer.disable,
+                    'status' : "verified"
+                }
                 print(res)
                 
             else:
                 logout(request,maintainer)
+                res = {
+                    'status' : "banned"
+                }
         except: 
             status = received_data["person"]["roles"]
             if(status[1]["role"]=="Maintainer" and status[1]["activeStatus"]=="ActiveStatus.IS_ACTIVE"):
@@ -174,12 +178,18 @@ class MaintainerViewSet(viewsets.ModelViewSet):
                 res =  {
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
-                    'user_id': maintainer.id
+                    'user_id': maintainer.id,
+                    'user_name' :maintainer.name,
+                    'isAdmin' : maintainer.admin,
+                    'isBanned' : maintainer.disable,
+                    'status' : "verified"
                     }
                 print("res")
                 login(request, maintainer)
             else:
-                res = Response({"status" : "notInIMG"})
+                res  = {
+                    "status" : "notinimg"
+                    }
                 # res['Access-Control-Allow-Origin'] = 'http://localhost:3000'
                 # res['Access-Control-Allow-Credentials'] = 'true'
                 return res
