@@ -1,0 +1,11 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    height:100vh ;
+    width :100vw;
+    position: relative;
+}
+
+.left{
+    width : 50vw;
+}

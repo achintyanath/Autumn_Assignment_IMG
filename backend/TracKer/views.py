@@ -74,7 +74,7 @@ def login1(request):
 #     else:
 #         return HttpResponse({"status" : "notInIMG"})
 
-#   return HttpResponse("Done")
+#   return redirect("http://127.0.0.1:8000/TracKer/maintainer/")
 
 
 def logout2(request):

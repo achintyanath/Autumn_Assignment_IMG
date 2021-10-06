@@ -1,0 +1,15 @@
+.container{
+    display: flex;
+    justify-content: center;
+    margin:auto;
+    width : 75vw;
+    align-items:center;
+}
+
+input {
+    width: 100%;
+  }
+
+.bg-color{
+    
+}
