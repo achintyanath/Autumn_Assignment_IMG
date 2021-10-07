@@ -24,7 +24,7 @@ function Projectitem(props){
           {/* <Image src='/images/wireframe/short-paragraph.png' /> */}
           </Item.Description>
           {props.projectDetails.project_maintained_by.map((maintainer)=>(
-          <Item.Extra>{}</Item.Extra>
+          <Item.Extra>{maintainer.name}</Item.Extra>
         )) }
           
           </Item.Content>

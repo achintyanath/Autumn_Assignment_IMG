@@ -1,0 +1,17 @@
+.card-icon{
+    display: flex;
+    flex-direction: row-reverse;
+    align-self:flex-end;
+}
+
+#card-heading{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.card-heading-text{
+    align-self:flex-start;
+}

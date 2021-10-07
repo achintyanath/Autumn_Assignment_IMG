@@ -6,7 +6,7 @@ from django import http
 from django.http.response import HttpResponse
 from django.shortcuts import redirect
 import requests
-from rest_framework.decorators import action
+from rest_framework.decorators import action, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Card, Comment, Maintainer,  Project,List
 from .serializers import CardSerializerElse, CardSerializerGet,  CommentSerializerElse, CommentSerializerGet, ListSerializerElse, ListSerializerGet, MaintainerSerializer, ProjectSerializerGet, ProjectSerializerElse
@@ -110,6 +110,28 @@ class MaintainerViewSet(viewsets.ModelViewSet):
         maintainer_to_be_banned.save()
 
         return redirect(f"http://127.0.0.1:8000/TracKer/maintainer/{pk}/") #return something else during frontend development
+
+
+    @action(methods=['get'],detail = False,url_path='check',url_name='check',permission_classes=[AllowAny])
+    def check(self,request):
+        if(request.user.is_authenticated):
+            maintainer= Maintainer.objects.get(name = request.user)
+            res ={
+                    'user_id': maintainer.id,
+                    'user_name' :maintainer.name,
+                    'isAdmin' : maintainer.admin,
+                    'isBanned' : maintainer.disable,
+                    'status' : "verified"
+                }
+
+        else: 
+            res ={
+                "status" : "not verified"
+            }
+
+           
+        return Response(res)
+
 
     @action(methods=['get'],detail=False, url_path='home', url_name='home',permission_classes=[AllowAny])
     def home(self,request):

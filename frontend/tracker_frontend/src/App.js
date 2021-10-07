@@ -14,6 +14,11 @@ import Loginauth from './components/Loginauth';
 import { useState, useEffect } from 'react';
 import NotAllowed from './components/NotAllowed';
 import Addproject from './components/Addproject';
+import ProjectDetail from './components/ProjectDetail';
+import ListItem from './components/ListItem'
+import CardItem from './components/CardItem'
+import axios from "axios";
+import EditProject from './components/EditProject';
 
 function App() {
 
@@ -24,6 +29,34 @@ function App() {
    isLogged : false,
    isAuth :null
  })
+
+
+ if(userDetails.isAuth==null){
+  if(localStorage.getItem('access_token')){
+    axios.get('http://127.0.0.1:8000/TracKer/maintainer/check'
+    ,{
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json', //the token is a variable which holds the token
+        accept :'application/json',
+      }
+     }
+    )
+    .then(function (response) {
+      // console.log(response)
+      console.log(response)
+       const data ={
+        ...response.data, isLogged: true
+      }
+      handleLogin(data)
+  
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+    }
+
 
  function handleLogin(userdata){
    setUserDetails({
@@ -38,6 +71,8 @@ function App() {
 
 
 if(userDetails.isAuth===null){
+
+  
   return (
     
      <Router>
@@ -65,20 +100,33 @@ if(userDetails.isAuth==="done"){
     return(
       <Router>
         <Switch>
-          <Route path="/project">
+          <Route exact path="/project">
               <Project userDetails={userDetails}/>
           </Route>
           <Route exact path="/projectitem">
             <Projectitem />
+          </Route>
+          <Route exact path="/addproject">
+            <Addproject userDetails={userDetails}/>
+          </Route>
+          <Route exact path="/projectdetail">
+            <ProjectDetail/>
+          </Route>
+          <Route exact path="/listitem">
+            <ListItem />
+          </Route>
+          <Route exact path="/carditem">
+            <CardItem />
+          </Route>
+          <Route path="/project/:id">
+            <EditProject />
           </Route>
         <Redirect
              to={{
                 pathname: "/project",
             }}
           /> 
-          <Route exact path="/addproject">
-            <Addproject userDetails={userDetails}/>
-          </Route>
+
         </Switch>
       </Router>
       

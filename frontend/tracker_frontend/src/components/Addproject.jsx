@@ -19,7 +19,7 @@ import {
     Radio,
     Select,
     TextArea,
-    Dropdown
+    Dropdown,Message
   } from 'semantic-ui-react'
 
 import Projectitem from "./Projectitem";
@@ -32,6 +32,7 @@ function Addproject(props){
     const [projectName,setProjectName] = useState();
     const [projectDesc, setProjectDesc] = useState();
     const [projectMember,setProjectMember] = useState([]);
+    const [successful,setSuccessfull] = useState(false);
     // const arr =[];
     // console.log(typeof(arr))
     
@@ -85,13 +86,27 @@ function Addproject(props){
        })
       .then(function(response){
         console.log(response);
+        setSuccessfull(true);
       })
+
+       setTimeout(function() {
+       window.location = '/projects'}, 1000)
+     
+       
   }
     return(
         <div className="bg-color">
            {/* <Navbar userDetails={userDetails} /> */}
         <div className="container">
-        <Form >
+        <Form success>
+        {successful? <div><Message
+            success
+            header='Project Created'
+            content="Your project is created"
+        /> 
+
+       </div>:null}
+
           <Form.Field >
             <label>Project Name</label>
             <input placeholder='Enter Project Name' value={projectName} onChange={handleChange} name="project_name"/>              
