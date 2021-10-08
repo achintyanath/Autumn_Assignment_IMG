@@ -67,4 +67,4 @@ class ProjectSerializerGet(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ['id','project_name', 'project_desc', 'project_maintained_by','lists_in_project']
-        depth = 1
+        depth =1

@@ -20,6 +20,7 @@ import CardItem from './components/CardItem'
 import axios from "axios";
 import EditProject from './components/EditProject';
 import Admin from './components/Admin';
+import Dashboard from './components/Dashboard';
 
 function App() {
 
@@ -124,6 +125,9 @@ if(userDetails.isAuth==="done"){
           </Route>
           <Route exact path="/userdetails">
             <Admin />
+          </Route>
+          <Route exact path="/dashboard">
+            <Dashboard userDetails ={userDetails} />
           </Route>
         <Redirect
              to={{
