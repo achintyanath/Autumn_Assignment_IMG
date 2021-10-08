@@ -100,16 +100,20 @@ class MaintainerViewSet(viewsets.ModelViewSet):
         maintainer_to_be_banned=Maintainer.objects.get(pk=pk)
         maintainer_to_be_banned.disable = not maintainer_to_be_banned.disable
         maintainer_to_be_banned.save()
+        res ={
+            "status" : "changed ban"
+        }
+        return  Response(res)
 
-        return redirect(f"http://127.0.0.1:8000/TracKer/maintainer/{pk}/") #return something else during frontend development
-
-    @action(detail=True, url_path='changeadmin', url_name='Change Admin',permission_classes=[IsAdmin&IsAuthenticated])
+    @action(methods = ['get'],detail=True, url_path='changeadmin', url_name='Change Admin',permission_classes=[IsAdmin&IsAuthenticated])
     def Change_Admin_Status(self, request, pk): 
         maintainer_to_be_banned=Maintainer.objects.get(pk=pk)
         maintainer_to_be_banned.admin = not maintainer_to_be_banned.admin
         maintainer_to_be_banned.save()
-
-        return redirect(f"http://127.0.0.1:8000/TracKer/maintainer/{pk}/") #return something else during frontend development
+        res ={
+            "status" : "changed admin status"
+        }
+        return  Response(res) #return something else during frontend development
 
 
     @action(methods=['get'],detail = False,url_path='check',url_name='check',permission_classes=[AllowAny])
