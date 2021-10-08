@@ -21,6 +21,10 @@ import axios from "axios";
 import EditProject from './components/EditProject';
 import Admin from './components/Admin';
 import Dashboard from './components/Dashboard';
+import AddCardItem from './components/AddCaritem';
+import AddListItem from './components/AddListitem';
+import EditCarditem from './components/EditCartitem';
+import EditListitem from './components/EditListitem';
 
 function App() {
 
@@ -128,6 +132,18 @@ if(userDetails.isAuth==="done"){
           </Route>
           <Route exact path="/dashboard">
             <Dashboard userDetails ={userDetails} />
+          </Route>
+          <Route exact path="/addcard">
+            <AddCardItem userDetails ={userDetails} />
+          </Route>
+          <Route exact path="/addlist">
+            <AddListItem userDetails ={userDetails} />
+          </Route>
+          <Route path="/card/edit/:id">
+            <EditCarditem userDetails ={userDetails} />
+          </Route>
+          <Route path="/list/edit/:id">
+            <EditListitem userDetails ={userDetails} />
           </Route>
         <Redirect
              to={{

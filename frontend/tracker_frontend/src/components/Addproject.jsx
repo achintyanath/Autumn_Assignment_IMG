@@ -125,20 +125,20 @@ function Addproject(props){
         />
         </Form.Field>
         <Form.Field
-           control={Select}
-            label='Gender'
-            options={user.map((user)=>{
-              return{
-                  key : user.id,
-                  text : user.name,
-                  value : user.id
-              }
-          })}
-            placeholder='Gender'
-            multiple ={true}
-            onChange= {handlechange2}
-            name = "project_maintained_by"
-      />
+                  control={Select}
+                  label='Gender'
+                  options={user.map((user)=>{
+                    return{
+                        key : user.id,
+                        text : user.name,
+                        value : user.id
+                    }
+                })}
+                  placeholder='Gender'
+                  multiple ={true}
+                  onChange= {handlechange2}
+                  name = "project_maintained_by"
+             />
             {/* <select multiple={true} onChange={handlechange2} name ="project_maintained_by">
             {user.map((user)=>(
                   <option value={user.id}>{user.name}</option>  
