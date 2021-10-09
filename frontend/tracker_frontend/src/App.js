@@ -90,12 +90,6 @@ if(userDetails.isAuth===null){
           <Route path="/login">
             <Loginauth onLogIn = {handleLogin}/>
           </Route>
-          <Route exact path="/addproject">
-            <Addproject />
-          </Route>
-          {/* <Route path="/project">
-            <Project userDetails={userDetails}/>
-          </Route> */}
         </Switch>
     </Router>
   );

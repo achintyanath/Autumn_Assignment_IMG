@@ -1,5 +1,7 @@
-.container{
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800&display=swap');
+.add-container{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     margin:auto;
     width : 75vw;
@@ -10,6 +12,7 @@ input {
     width: 100%;
   }
 
-.bg-color{
-    
+.label{
+  font-family: 'Inconsolata', monospace;
+  font-weight: 700;
 }
