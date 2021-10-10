@@ -42,9 +42,24 @@ function CardItem(){
   function handleOnchange(event,data){
     console.log(event);
   }
+  const customStyles = {
+
+    multiValue: (styles) => {
+      
+      const borderRadius=5;
+      const opacity = 0.5;
+      const transition = 'opacity 300ms';
+  
+      return {...styles, borderRadius,opacity, transition };
+    },
+    input:(styles)=>{
+      const borderRadius =5;
+      return{...styles, borderRadius}
+    }
+  }
 
     return (
-        <Card>
+        <Card className="card-item">
         <Card.Content>
           <Card.Header id="card-heading">
             <div className="card-heading-text">
@@ -59,7 +74,7 @@ function CardItem(){
 
           
           <Card.Meta>Date of assignment</Card.Meta>
-          <Card.Description>
+          <Card.Description className="card-desc">
            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Animi ipsam aspernatur dolores inventore cumque veniam consequuntur dolorum eos quod, accusantium, assumenda incidunt nostrum neque, perferendis esse eaque aut eius excepturi.
           </Card.Description>
         </Card.Content>
@@ -75,12 +90,8 @@ function CardItem(){
             theme={(theme) => ({
               ...theme,
               borderRadius: 1.25,
-              colors: {
-                ...theme.colors,
-                primary25: 'browm',
-                primary: 'cyan',
-              }
             })}
+            styles={customStyles}
             onChange={handleOnchange}
     />
        

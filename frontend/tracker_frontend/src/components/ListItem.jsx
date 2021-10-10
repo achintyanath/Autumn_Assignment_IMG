@@ -15,9 +15,11 @@ import omniportimage from "../images/index.png"
 import "../styles/listitem.css";
 
 import Projectitem from "./Projectitem";
+import CardItem from "./CardItem";
 
 
-function ListItem(){
+function ListItem(props){
+
 
 
     return(
@@ -25,21 +27,11 @@ function ListItem(){
 
         <div className = "list-container">
         <Grid doubling columns={5}>
-                    <Grid.Column>
-                    <Image src={omniportimage}/>
-                    </Grid.Column>
-                    <Grid.Column>
-                    <Image src={omniportimage} />
-                    </Grid.Column>
-                    <Grid.Column>
-                    <Image src={omniportimage} />
-                    </Grid.Column>
-                    <Grid.Column>
-                    <Image src={omniportimage} />
-                    </Grid.Column>
-                    <Grid.Column>
-                    <Image src={omniportimage} />
-                    </Grid.Column>
+        {props.listdetails.card_in_list.map((card)=>{
+             <Grid.Column>
+                    <CardItem  cardDetails ={card}/>
+             </Grid.Column>
+        })}
         </Grid>
         </div>
         </div>

@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&family=Oswald:wght@200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;@300;400;500;600&display=swap');
+.card-item{
+    box-shadow: rgba(185, 223, 255, 0.2) 0px 7px 29px 0px  !important;
+    padding: 1em;
+    margin: 0.5em!important;
+}
 .card-icon{
     display: flex;
     flex-direction: row-reverse;
@@ -14,4 +21,11 @@
 
 .card-heading-text{
     align-self:flex-start;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+}
+.card-desc{
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: small;
 }

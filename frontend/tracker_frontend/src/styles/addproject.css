@@ -4,15 +4,52 @@
     flex-direction: column;
     justify-content: center;
     margin:auto;
-    width : 75vw;
+    width : 50vw;
     align-items:center;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 1em;
+    background-color: none !important;
+
 }
 
-input {
-    width: 100%;
+.input-field {
+    border-radius: 5px  !important;
+    background-color: none !important;
+  
   }
 
 .label{
   font-family: 'Inconsolata', monospace;
   font-weight: 700;
+  color: #016ABC !important;
+}
+.submit-button {
+  background:#a2d1f8 !important;
+  color:#fff !important;
+  border:1pxsolid#eee !important; 
+  border-radius:20px !important;
+  box-shadow:5px5px5px#eee !important;
+  text-shadow:none !important;
+}
+.submit-button:hover {
+  background:#016ABC !important;
+  color:#fff !important;
+  border:1pxsolid#eee !important;
+  border-radius:20px !important;
+  box-shadow:5px5px5px#eee !important;
+  text-shadow:none !important;
+}
+
+.form-heading{
+  color:#016ABC!important;
+  font-family: 'Inconsolata', monospace  !important;
+  font-weight: 700 !important;
+  font-size :xx-large !important;
+  
+}
+
+.addp-container{
+  background-color: rgba(	185, 223, 255, 0.2);
+  height:100vh;
+  width: 100vw;
 }

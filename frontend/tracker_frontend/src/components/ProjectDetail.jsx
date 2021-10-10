@@ -10,16 +10,19 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { Grid, Image ,Item} from 'semantic-ui-react'
+import { Grid, Image ,Item,List, ListItem} from 'semantic-ui-react'
 import omniportimage from "../images/index.png"
 import "../styles/projectdetail.css";
 
 import Projectitem from "./Projectitem";
+import Loading from "./Loading";
 
-function ProjectDetail(){
-  var option
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8000/TracKer/project/1',{
+function ProjectDetail(props){
+
+  const [project,setProject]  = useState();
+  const [isBusy, setBusy] = useState(true)
+  useEffect(()=>{
+  axios.get('http://127.0.0.1:8000/TracKer/project/1/',{
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('access_token'),
         'Content-Type': 'application/json', //the token is a variable which holds the token
@@ -28,18 +31,22 @@ function ProjectDetail(){
      })
     .then(function (response) {
       // console.log(response)
+      console.log("hi project data")
       console.log(response.data)
-      option = response.data;
+      setProject(response.data);
     })
     .catch(function (error) {
       console.log(error);
     });
-  }, [])
+  },[])
 
 
 
   return(
+    <div id = "bg">
+    <Navbar userDetails={props.userDetails} />
     <div className="project-detail">
+    
     <Grid centered>
     <Grid.Row columns={3}>
       <Grid.Column textAlign="center"> 
@@ -48,34 +55,37 @@ function ProjectDetail(){
       <Grid.Column  verticalAlign="middle" textAlign="center" bordered>
         
         
-          <h1>Project Name</h1>
+          <h1>{project&&project.project_name}</h1>
         
       
       </Grid.Column >
       <Grid.Column textAlign="center" verticalAlign="middle" >
-        <li>Achintya Nath</li>
-        <li>Astha Nath</li>
-        <li>Antra </li>
+      <List>
+      
+        {project&&project.project_maintained_by.map((maintainer)=>(
+              <List.Item>
+                <List.Icon name="user" />
+              <List.Content>{maintainer.name}</List.Content>
+            </List.Item>
+        )
+
+        )}
+          </List>
       </Grid.Column>
     </Grid.Row>
 
     <Grid.Row columns={1} className="project-desc">
       <Grid.Column >
        <p>
-         project description
-         <Link
-                to={{
-                    pathname: "/project/1",
-                    state: {
-                        projectdetails: "hello"
-                    }
-                }}>
-                Press Me
-</Link>
+         {project&&project.project_desc}
        </p>
       </Grid.Column>
     </Grid.Row>
   </Grid>
+  <ListItem listdetails={project&&project.lists_in_project} />
+
+  
+  </div>
   </div>
   )
 }

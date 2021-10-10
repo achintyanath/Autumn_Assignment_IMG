@@ -37,7 +37,7 @@ function App() {
  })
 
 
- if(userDetails.isAuth==null){
+ if(userDetails.isAuth===null){
   if(localStorage.getItem('access_token')){
     axios.get('http://127.0.0.1:8000/TracKer/maintainer/check'
     ,{
@@ -78,9 +78,7 @@ function App() {
 
 if(userDetails.isAuth===null){
 
-  
   return (
-    
      <Router>
        {console.log("here in not auth")}
         <Switch>
@@ -90,12 +88,18 @@ if(userDetails.isAuth===null){
           <Route path="/login">
             <Loginauth onLogIn = {handleLogin}/>
           </Route>
+          {/* <Redirect 
+              to={{
+                        pathname: "/",
+                    }}
+              /> */}
         </Switch>
     </Router>
   );
 }
 
 if(userDetails.isAuth==="done"){
+  console.log("hi here in auth")
   if(userDetails.isLogged){
     return(
       <Router>
@@ -110,7 +114,7 @@ if(userDetails.isAuth==="done"){
             <Addproject userDetails={userDetails}/>
           </Route>
           <Route exact path="/projectdetail">
-            <ProjectDetail/>
+            <ProjectDetail userDetails={userDetails}/>
           </Route>
           <Route exact path="/listitem">
             <ListItem />

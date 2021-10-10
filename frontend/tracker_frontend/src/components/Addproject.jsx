@@ -17,11 +17,10 @@ import {
     Form,
     Input,
     Radio,
-    Select,
     TextArea,
     Dropdown,Message, Header
   } from 'semantic-ui-react'
-
+import Select from 'react-select'
 import Projectitem from "./Projectitem";
 import { Editor } from "@tinymce/tinymce-react";
 import Loading from "./Loading";
@@ -64,8 +63,8 @@ function Addproject(props){
     setProjectName(event.target.value)
   }
 
-  function handlechange2(event,data){
-  setProjectMember(data.value);
+  function handlechange2(event){
+  setProjectMember(event);
   }
   function handleChange3(newValue, editor){
     setProjectDesc(newValue)
@@ -127,13 +126,28 @@ function Addproject(props){
   useEffect(()=>{
     setLoading(false)
   },[]);
+  const customStyles = {
+
+    multiValue: (styles) => {
+      
+      const borderRadius=5;
+      const opacity = 0.5;
+      const transition = 'opacity 300ms';
+  
+      return {...styles, borderRadius,opacity, transition };
+    },
+    input:(styles)=>{
+      const borderRadius =5;
+      return{...styles, borderRadius}
+    }
+  }
 
     return(
       loading?<Loading />:
-        <div className="addp-conatiner">
+        <div className="addp-container">
         <Navbar userDetails={userDetails}/>
         <div className="add-container">
-          <Header size="large">Add a New Project</Header>
+          <Header size="huge"className="form-heading" >Add a New Project</Header>
         <Form success error size="13">
         {successful? <div><Message
             success
@@ -149,38 +163,47 @@ function Addproject(props){
 
           <Form.Field size={14}>
             <label className="label">Project Name</label>
-            <input placeholder='Enter Project Name' value={projectName} onChange={handleChange} name="project_name"/>              
+            <input placeholder='Enter Project Name' value={projectName} onChange={handleChange} className="input-field"/>              
             </Form.Field>
         <Form.Field>
         <label className="label">Project Description</label>
         <Editor
+        
          apiKey="b1x6a1rmexpa5pdq8y385l5cami9vtqu5dul5cu4bt7tb2f0"
          value={projectDesc}
             init={{
             height: 250,
-           width : 800,
+            width: 500,
             menubar: true
             }}
             onEditorChange={handleChange3}
           name="project_desc"
         />
         </Form.Field>
-        <Form.Field
-                  control={Select}
-                  label='Gender'
-                  options={user.map((user)=>{
-                    return{
-                        key : user.id,
-                        text : user.name,
-                        value : user.id
-                    }
-                })}
-                  placeholder='Gender'
-                  multiple ={true}
-                  onChange= {handlechange2}
-                  name = "project_maintained_by"
-             />        
-        <Button type='submit' onClick={handleSubmit} placeholder="Add Member">Submit</Button>
+        <Form.Field>
+        <label className="label">Members</label>
+
+            <Select
+            className="input-field"
+            closeMenuOnSelect={false}
+            isSearchable
+            isMulti
+            options={user.map((user)=>{
+              return{
+                  label : user.name,
+                  value : user.id
+              }
+          })}
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 1.25,
+            })}
+            styles={customStyles}
+            onChange={handlechange2}
+            placeholder='Select Project Memebers'
+            />
+            </Form.Field>
+        <Button type='submit' onClick={handleSubmit} placeholder="Add Member" className="submit-button">Submit</Button>
       </Form>
       </div>
       </div>
