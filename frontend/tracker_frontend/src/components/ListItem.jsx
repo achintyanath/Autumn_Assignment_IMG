@@ -38,8 +38,13 @@ function ListItem(props){
           {props.listdetails.list_name}
           </div>
                  <div className = "list-icon"> 
-          <Icon name='edit'link aria-label="Edit" color="blue" size="large"/>
-          <Icon name='delete'link aria-label="Delete" color="red" size="large"  onClick ={handleDelete}/>
+            <Link to ={{pathname : `/addcard/${props.listdetails.id}`,state:props.projectmain}}>  
+                 <Icon name='add' link aria-label="Edit" color="green" size="large"/>
+                 </Link>
+          <Link to ={{pathname : `/list/edit/${props.listdetails.id}`}}>    
+              <Icon name='edit' link aria-label="Edit" color="blue" size="large"/>
+          </Link>
+          <Icon name='delete' link aria-label="Delete" color="red" size="large"  onClick ={handleDelete}/>
 
           </div>
         </Segment>

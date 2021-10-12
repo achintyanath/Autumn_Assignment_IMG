@@ -36,13 +36,13 @@ function CardItem(props){
   })
 
   function handleOnchange(event){
-    // console.log(event);
+     console.log(event);
     const data = {
       "id" : props.carddetails.id,
-      "card_assigned_to" : event,        
+      "card_assigned_to" : event.map((maintainer)=>maintainer.value),        
   }
 
-    axios.patch(`http://127.0.0.1:8000/TracKer/list/${props.carddetails.id}/`, data,{
+    axios.patch(`http://127.0.0.1:8000/TracKer/card/${props.carddetails.id}/`, data,{
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('access_token'),
           'Content-Type': 'application/json',
@@ -94,8 +94,12 @@ function CardItem(props){
             </div>
 
           <div className = "card-icon"> 
+
           <Icon name='delete'link aria-label="Delete" color="red" onClick ={handleEdit}/> 
-          <Icon name='edit'link aria-label="Edit" color="blue" />
+          <Link to ={{pathname : `/card/edit/${props.carddetails.id}`, state:props.projectmain}}>  
+          <Icon name='edit'link aria-label="Edit" color="blue" /> 
+          </Link>
+          
           </div>
           </Card.Header>
 

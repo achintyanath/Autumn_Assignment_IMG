@@ -16,7 +16,7 @@ function EditListitem(){
     const [listName,setListName] = useState();
     const [successful,setSuccessfull] = useState(false);
     const { id } = useParams();
-    console.log(id)
+
 
     useEffect(async () => {        
         const fetchList = async() =>{

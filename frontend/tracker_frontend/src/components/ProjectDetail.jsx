@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import Navbar from "./Navbar2";
 import {
   BrowserRouter as Router,
@@ -16,13 +16,14 @@ import "../styles/projectdetail.css";
 import ListItem from"./ListItem"
 import Projectitem from "./Projectitem";
 import Loading from "./Loading";
+import { useHistory, useParams } from 'react-router-dom'
 
 function ProjectDetail(props){
-
+  const { id } = useParams();
   const [project,setProject]  = useState();
   const [isBusy, setBusy] = useState(true)
   useEffect(()=>{
-  axios.get('http://127.0.0.1:8000/TracKer/project/1/',{ //{projectid}
+  axios.get(`http://127.0.0.1:8000/TracKer/project/${id}/`,{ //{projectid}
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('access_token'),
         'Content-Type': 'application/json', //the token is a variable which holds the token
@@ -40,6 +41,11 @@ function ProjectDetail(props){
     });
   },[])
 
+  function handleProjectEdit(){
+    console.log("jkjkj");
+    <Link to={{pathname: `/project/edit/${project&&project.id}`}} />
+  }
+
 
 
   return(
@@ -48,16 +54,26 @@ function ProjectDetail(props){
     <div className="project-detail">
     
     <Grid centered className="projectdetails-upper">
+      <div className="projecticons-conatainer">
       <div className="projecticons" >
-            <Icon name='delete'link aria-label="Delete" color="red" size="large"/>
-            <Icon name='edit'link aria-label="Edit" color="blue" size="large" />
+              <Link to ={{pathname : `/addlist/${project&&project.id}`}}>  
+                 <Icon name='add' link aria-label="Edit" color="green" size="large"/>
+                 </Link>
+              <Link  to={{ pathname: `/project/edit/${project&&project.id}`}}>
+                <Icon name='edit' link aria-label="Edit" color="blue" size="large"/>
+              </Link>
+              <Icon name='delete' link aria-label="Delete" color="red" size="large" />
+
+    </div>
     </div>
     <Grid.Row columns={3}>
       <Grid.Column textAlign="center"> 
         <Image src={omniportimage} size="small" bordered centered />
       </Grid.Column>
-      <Grid.Column  verticalAlign="middle" textAlign="center" bordered className="projectdetails-heading">
+      <Grid.Column verticalAlign="middle" textAlign="center" bordered className="projectdetails-heading">
+ 
           {project&&project.project_name}
+          
       </Grid.Column >
       <Grid.Column verticalAlign="middle" >
       <List>

@@ -203,7 +203,7 @@ function Addproject(props){
             placeholder='Select Project Memebers'
             />
             </Form.Field>
-        <Button type='submit' onClick={handleSubmit} placeholder="Add Member" className="submit-button">Submit</Button>
+        <Button type='submit' onClick={handleSubmit} className="submit-button">Submit</Button>
       </Form>
       </div>
       </div>

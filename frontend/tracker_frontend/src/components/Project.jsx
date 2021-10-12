@@ -2,12 +2,12 @@ import axios from "axios";
 import React from "react";
 import { useState, useEffect } from 'react';
 import Navbar from "./Navbar2";
-import { Grid, Image ,Item, Segment,Divider} from 'semantic-ui-react'
+import { Grid, Image ,Item, Divider,Icon} from 'semantic-ui-react'
 import "../styles/project.css";
 import logo from "../images/TracKerlogo.png"
-import bg from "../images/index1.jpeg"
 import Projectitem from "./Projectitem";
 import Loading from "./Loading";
+import { Link } from "react-router-dom";
 
 
 function Project(props){
@@ -49,11 +49,19 @@ return(
         <Grid divided columns="2" className="grid-project">
        
           <Grid.Column className ="grid-left" width={6}>
-              <span id ="project-heading-grid" >Projects</span>
+            <div className="project-heading-icon">
+              <div id ="project-heading-grid" >Projects</div>
+              <div>
+              <Link to ={{pathname : `/addproject`}}>  
+                 <Icon name='add' link aria-label="Edit" color="green" size="large"/>
+                 </Link>
+                 </div>
+              </div>
               <Item.Group className="item-group">
                 {projectDetails.map((project)=>(
+               
                     <Projectitem projectDetails={project} />
-                   
+                
                 )) }
               </Item.Group>
           </Grid.Column>
@@ -78,49 +86,7 @@ return(
   </div>
 
     )
-    
-
-//     else{
-//     return(
-
-//     <div>
-//     {console.log("Here")}
-//     <Navbar userDetails={userDetails} />
-//     <div className= "container">
-//     <div className = "left">
-//     <Grid>
-//       <Grid.Column width={15}>
-//       {/* <Item.Group> */}
-//       {/* {projectDetails.detailarray.map((project)=>(
-//         <Projectitem projectDetails={project} />
-//       )) } */}
-//         {/* <Item>
-//         <Item.Image size='tiny' src={omniportimage}  rounded/>
-
-//      <Item.Content>
-//         <Item.Header as='a'>Header</Item.Header>
-//         <Item.Meta>Description</Item.Meta>
-//         <Item.Description>
-//         <Image src='/images/wireframe/short-paragraph.png' />
-//         </Item.Description>
-//         <Item.Extra>Additional Details</Item.Extra>
-//         </Item.Content>
-//         </Item> */}
-//       {/* </Item.Group> */}
-//       </Grid.Column>
-//       <Grid.Column width={9}>
-//       {/* <Image src='/images/wireframe/paragraph.png' /> */}
-//       </Grid.Column>
-// </Grid>
-//    </div>
-//    <div className="right">
-//    <div>hi</div>
-//     <Link to="/projectitem">hi</Link>
-//    </div>
-//     </div>
-//   </div>
-//     )
-//     }
+  
 }
 export default Project;
 

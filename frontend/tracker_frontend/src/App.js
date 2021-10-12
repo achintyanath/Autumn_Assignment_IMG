@@ -113,7 +113,7 @@ if(userDetails.isAuth==="done"){
           <Route exact path="/addproject">
             <Addproject userDetails={userDetails}/>
           </Route>
-          <Route exact path="/projectdetail">
+          <Route exact path="/project/:id">
             <ProjectDetail userDetails={userDetails}/>
           </Route>
           <Route exact path="/listitem">
@@ -122,8 +122,8 @@ if(userDetails.isAuth==="done"){
           <Route exact path="/carditem">
             <CardItem />
           </Route>
-          <Route path="/project/:id">
-            <EditProject />
+          <Route exact path="/project/edit/:id">
+            <EditProject userDetails ={userDetails}/>
           </Route>
           <Route exact path="/admin">
             <Admin userDetails ={userDetails}/>
@@ -131,16 +131,16 @@ if(userDetails.isAuth==="done"){
           <Route exact path="/dashboard">
             <Dashboard userDetails ={userDetails} />
           </Route>
-          <Route exact path="/addcard">
+          <Route exact path="/addcard/:id">
             <AddCardItem userDetails ={userDetails} />
           </Route>
-          <Route exact path="/addlist">
+          <Route exact path="/addlist/:id">
             <AddListItem userDetails ={userDetails} />
           </Route>
           <Route path="/card/edit/:id">
             <EditCarditem userDetails ={userDetails} />
           </Route>
-          <Route path="/list/edit/:id">
+          <Route exact path="/list/edit/:id">
             <EditListitem userDetails ={userDetails} />
           </Route>
         <Redirect

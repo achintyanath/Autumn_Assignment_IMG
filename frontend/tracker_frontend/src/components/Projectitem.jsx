@@ -2,13 +2,15 @@ import React from "react";
 import {Item,List,Divider} from 'semantic-ui-react'
 import omniportimage from "../images/index.png"
 import "../styles/project.css";
+import { Link } from "react-router-dom";
 
 function Projectitem(props){
 
   console.log("hi")
     return(
 
-       <Item id="item-container"> 
+       <Item id="item-container" as={Link} to={{pathname : `/project/${props.projectDetails.id}`}}> 
+
           <Item.Image src={omniportimage}  size='tiny' rounded/>
           <Item.Content>
           {/* <div className="project-heading"> */}
@@ -37,6 +39,7 @@ function Projectitem(props){
         
           
           </Item.Content>
+         
         </Item>
         
       )
