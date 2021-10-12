@@ -7,7 +7,7 @@ from .models import Maintainer,Project,List,Card,Comment
 class MaintainerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Maintainer
-        fields = ['id','name', 'year', 'admin', 'disable']
+        fields = ['id','enrollment_number','name', 'year', 'admin', 'disable']
 
 class CommentSerializerElse(serializers.ModelSerializer):
 

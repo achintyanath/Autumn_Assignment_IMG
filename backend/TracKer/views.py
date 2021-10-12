@@ -85,7 +85,7 @@ class MaintainerViewSet(viewsets.ModelViewSet):
 
     queryset = Maintainer.objects.all()
     serializer_class = MaintainerSerializer
-    #permission_classes = [IsAuthenticated]
+    permission_classes=[AllowAny]
 
     def get_tokens_for_user(user):
         refresh = RefreshToken.for_user(user)

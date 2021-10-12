@@ -1,0 +1,10 @@
+.user-table{
+    background-color: none !important;
+    width : 75vw  !important;
+}
+.table-div{
+    background-color: none !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

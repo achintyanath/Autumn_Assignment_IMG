@@ -6,6 +6,7 @@
     margin: 0.5em!important;
     flex: 1; 
     width: 20vw !important;
+    border-radius: 10px  !important;
     /* align-items: stretch; */
 }
 .card-icon{

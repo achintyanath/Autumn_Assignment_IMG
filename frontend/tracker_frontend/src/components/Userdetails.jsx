@@ -23,7 +23,7 @@ function Userdetails(props){
 
 
   
-
+    const [year,setUserYear]  = useState();
     const [isAdmin,setIsAdmin] = useState( props.details.admin);
     const[isBan,setisBan] = useState(props.details.disable);
 
@@ -36,7 +36,17 @@ function Userdetails(props){
 
 // // }, [])
 
+    useEffect(()=>{
 
+    axios.get(`http://127.0.0.1:8000/TracKer/maintainer/${props.details.id}`)
+    .then(function (response) {
+      console.log(response.data.year);
+        setUserYear(response.data.year);
+      })
+      .catch(function (error) {
+        console.log(error);
+      }); 
+    },[]);
 
     function handleAdminChange(checked){
         setIsAdmin(checked);
@@ -78,9 +88,11 @@ function Userdetails(props){
 
          <Table.Row>
             <Table.Cell>{props.details.name}</Table.Cell>
+            <Table.Cell>{year}</Table.Cell>
             <Table.Cell><Switch onChange={handleAdminChange}checked={isAdmin}/></Table.Cell>
             <Table.Cell><Switch onChange={handleBanChange} checked={isBan} /></Table.Cell>
           </Table.Row>
+
     )
 
 }

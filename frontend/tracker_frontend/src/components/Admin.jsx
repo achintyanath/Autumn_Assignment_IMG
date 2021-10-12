@@ -9,9 +9,9 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { Grid, Image ,Item,Segment,Table} from 'semantic-ui-react'
+import { Table} from 'semantic-ui-react'
 import omniportimage from "../images/index.png"
-import "../styles/projectdetail.css";
+import "../styles/admin.css";
 import Switch from "react-switch";
 import Projectitem from "./Projectitem";
 import Userdetails from "./Userdetails";
@@ -34,24 +34,28 @@ axios.get(`http://127.0.0.1:8000/TracKer/maintainer/`,{
   }); 
 
 
-function Admin(){
+function Admin(props){
 
 
-    const [userDetails, setUserDetails]  = useState(memebers)
+    const [userDetail, setUserDetails]  = useState(memebers)
 
     return(
-
-        <Table>
+      <div className="something">
+        {console.log(props)}
+      <Navbar userDetails={props.userDetails} />
+      <div className="table-div"> 
+        <Table className="user-table" >
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell width={10}>Name</Table.HeaderCell>
+            <Table.HeaderCell width={5}>Year</Table.HeaderCell>
             <Table.HeaderCell width={2}>Admin Status</Table.HeaderCell>
             <Table.HeaderCell width={2}>Ban Status</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
     
         <Table.Body>
-        {userDetails.map((user)=>(
+        {userDetail.map((user)=>(
         
                     <Userdetails details ={user}/>
                 
@@ -61,6 +65,8 @@ function Admin(){
     
 
       </Table>
+      </div>
+      </div>
 
     )
 

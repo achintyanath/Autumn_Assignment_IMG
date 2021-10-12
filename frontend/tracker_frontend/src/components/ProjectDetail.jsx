@@ -44,27 +44,27 @@ function ProjectDetail(props){
 
   return(
     <div id = "bg">
-    <Navbar userDetails={props.userDetails} />
+    {/* <Navbar userDetails={props.userDetails} /> */}
     <div className="project-detail">
     
     <Grid centered className="projectdetails-upper">
+      <div className="projecticons" >
+            <Icon name='delete'link aria-label="Delete" color="red" size="large"/>
+            <Icon name='edit'link aria-label="Edit" color="blue" size="large" />
+    </div>
     <Grid.Row columns={3}>
       <Grid.Column textAlign="center"> 
         <Image src={omniportimage} size="small" bordered centered />
       </Grid.Column>
       <Grid.Column  verticalAlign="middle" textAlign="center" bordered className="projectdetails-heading">
-        
-        
           {project&&project.project_name}
-        
-      
       </Grid.Column >
       <Grid.Column verticalAlign="middle" >
       <List>
         {project&&project.project_maintained_by.map((maintainer)=>(
               <List.Item>
                
-              <List.Content>  <Icon name="user" />{maintainer.name}</List.Content>
+              <List.Content>  <Icon name="user" color="blue"/>{maintainer.name}</List.Content>
             </List.Item>
         )
         )}
@@ -73,7 +73,7 @@ function ProjectDetail(props){
     </Grid.Row>
 
     <Grid.Row columns={1} className="projectdetail-desc" centered>
-      <Grid.Column textAlign="center">
+      <Grid.Column textAlign="center" className="projectheading-desc">
        
          {project&&project.project_desc}
       

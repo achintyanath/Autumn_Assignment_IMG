@@ -125,8 +125,8 @@ if(userDetails.isAuth==="done"){
           <Route path="/project/:id">
             <EditProject />
           </Route>
-          <Route exact path="/userdetails">
-            <Admin />
+          <Route exact path="/admin">
+            <Admin userDetails ={userDetails}/>
           </Route>
           <Route exact path="/dashboard">
             <Dashboard userDetails ={userDetails} />

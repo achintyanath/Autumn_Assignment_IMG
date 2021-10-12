@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&family=Oswald:wght@200;300;400;500;600&display=swap');
+
 #project-heading{
  
     place-self: center;
@@ -9,23 +11,27 @@
     align-items :center;
 }
 
-.project-detail{
+.projectdetail-list-grid{
+    border: 1px solid rgb(230, 230, 230);
+    margin: 1em !important;
+    padding: 1em;
+    border-radius: 10px;
    
 }
 
 .projectdetails-upper{
     margin: 1em !important;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 3px;
+    border: 2px solid rgb(230, 230, 230);
+    border-radius: 10px;
+
 
 }
 .projectdetail-list{
     margin: 1em !important;
     padding: 1em  !important;
     overflow-x: auto !important;
-    height: fit-content;
-   
-   
+    height: fit-content;   
+    border-bottom: 2px solid rgb(221, 221, 221);
 }
 /* .list-container{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -41,9 +47,26 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
 
 }
 .projectdetails-heading{
     font-family: 'Courgette', cursive !important;
     font-size: 75px;
+}
+
+
+.projectheading-desc{
+    font-size: xx-large;
+    
+}
+.projecticons{
+    padding: 1em !important;
+    position: absolute;
+    right: 2.5%;
+   display: flex !important;
+   flex-direction: row-reverse !important;
+
+   
 }
