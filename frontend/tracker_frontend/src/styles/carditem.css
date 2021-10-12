@@ -4,6 +4,9 @@
     box-shadow: rgba(185, 223, 255, 0.2) 0px 7px 29px 0px  !important;
     padding: 1em;
     margin: 0.5em!important;
+    flex: 1; 
+    width: 20vw !important;
+    /* align-items: stretch; */
 }
 .card-icon{
     display: flex;
@@ -25,7 +28,13 @@
     font-weight: 700;
 }
 .card-desc{
-    font-family: 'Inter', sans-serif;
+    /* font-family: 'Inter', sans-serif; */
     font-weight: 500;
     font-size: small;
+    overflow-y:auto !important;
+    max-height: 300px !important;
+
+}
+.card-item-content{
+    height: 100%  !important;
 }

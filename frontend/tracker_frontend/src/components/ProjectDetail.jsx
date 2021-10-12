@@ -10,10 +10,10 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { Grid, Image ,Item,List, ListItem} from 'semantic-ui-react'
+import { Grid, Image ,Item,List,Icon} from 'semantic-ui-react'
 import omniportimage from "../images/index.png"
 import "../styles/projectdetail.css";
-
+import ListItem from"./ListItem"
 import Projectitem from "./Projectitem";
 import Loading from "./Loading";
 
@@ -22,7 +22,7 @@ function ProjectDetail(props){
   const [project,setProject]  = useState();
   const [isBusy, setBusy] = useState(true)
   useEffect(()=>{
-  axios.get('http://127.0.0.1:8000/TracKer/project/1/',{
+  axios.get('http://127.0.0.1:8000/TracKer/project/1/',{ //{projectid}
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('access_token'),
         'Content-Type': 'application/json', //the token is a variable which holds the token
@@ -47,42 +47,51 @@ function ProjectDetail(props){
     <Navbar userDetails={props.userDetails} />
     <div className="project-detail">
     
-    <Grid centered>
+    <Grid centered className="projectdetails-upper">
     <Grid.Row columns={3}>
       <Grid.Column textAlign="center"> 
         <Image src={omniportimage} size="small" bordered centered />
       </Grid.Column>
-      <Grid.Column  verticalAlign="middle" textAlign="center" bordered>
+      <Grid.Column  verticalAlign="middle" textAlign="center" bordered className="projectdetails-heading">
         
         
-          <h1>{project&&project.project_name}</h1>
+          {project&&project.project_name}
         
       
       </Grid.Column >
-      <Grid.Column textAlign="center" verticalAlign="middle" >
+      <Grid.Column verticalAlign="middle" >
       <List>
-      
         {project&&project.project_maintained_by.map((maintainer)=>(
               <List.Item>
-                <List.Icon name="user" />
-              <List.Content>{maintainer.name}</List.Content>
+               
+              <List.Content>  <Icon name="user" />{maintainer.name}</List.Content>
             </List.Item>
         )
-
         )}
           </List>
       </Grid.Column>
     </Grid.Row>
 
-    <Grid.Row columns={1} className="project-desc">
-      <Grid.Column >
-       <p>
+    <Grid.Row columns={1} className="projectdetail-desc" centered>
+      <Grid.Column textAlign="center">
+       
          {project&&project.project_desc}
-       </p>
+      
       </Grid.Column>
     </Grid.Row>
   </Grid>
-  <ListItem listdetails={project&&project.lists_in_project} />
+  <Grid className="projectdetail-list-grid" divided>
+
+      {console.log(project&&project.lists_in_project)}
+      {project&&project.lists_in_project.map((list)=>(
+            <Grid.Row className="projectdetail-list"> 
+        <ListItem listdetails={list} projectmain = {project&&project.project_maintained_by}/>
+        </Grid.Row>
+      ))}
+         
+   
+  </Grid>
+ 
 
   
   </div>

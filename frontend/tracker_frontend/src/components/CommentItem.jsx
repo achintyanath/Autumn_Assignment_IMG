@@ -19,6 +19,8 @@ import Select from 'react-select'
 import CardItem from "./CardItem";
 
 function CommentItem(){
+
+  return(
  <Comment.Group>
  <Comment>
    <Comment.Avatar src='/images/avatar/small/matt.jpg' />
@@ -80,5 +82,6 @@ function CommentItem(){
  </Comment>
 
 </Comment.Group>
+  )
 }
-export default CardItem;
+export default CommentItem;

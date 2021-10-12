@@ -76,10 +76,10 @@ function Addproject(props){
     const data = {
         "project_name" : projectName,
         "project_desc" : projectDesc,
-        "project_maintained_by" : projectMember          
+        "project_maintained_by" : projectMember.map((main)=>main.value)         
     }
     console.log(data);
-    axios.post('http://127.0.0.1:8000/TracKer/project/1/', data,{
+    axios.post('http://127.0.0.1:8000/TracKer/project/', data,{
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('access_token'),
           'Content-Type': 'application/json', //the token is a variable which holds the token

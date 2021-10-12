@@ -10,37 +10,53 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { Grid, Image ,Item, Card, Button,Icon,Comment} from 'semantic-ui-react'
+import { Grid, Image ,Item, Card, Button,Icon,Comment, Dimmer,Header} from 'semantic-ui-react'
 import omniportimage from "../images/index.png"
 import "../styles/carditem.css";
 import makeAnimated from 'react-select/animated';
 import Projectitem from "./Projectitem";
 import Select from 'react-select'
+import CommentItem from "./CommentItem";
 const animatedComponents = makeAnimated()
 
-const options =[
-  {
-  label : "Astha Nath",
-  value : 1
-  },
-  {
-    label : "Achintya Nath",
-    value : 2
-    },
-    {
-      label : "Antra Nath",
-      value : 3
+
+function CardItem(props){
+  const [active,setActive] =useState(false)
+  const options = props.carddetails.card_assigned_to.map((maintainer)=>{
+    return {
+      label : maintainer.name,
+      value : maintainer.id
     }
-]
+  })
+  const maintainers = props.projectmain.map((project)=>{
+    return{
+      label : project.name,
+      value : project.id
+    }
+  })
+
+  function handleOnchange(event){
+    // console.log(event);
+    const data = {
+      "id" : props.carddetails.id,
+      "card_assigned_to" : event,        
+  }
+
+    axios.patch(`http://127.0.0.1:8000/TracKer/list/${props.carddetails.id}/`, data,{
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+          'Content-Type': 'application/json',
+          accept :'application/json',
+        }
+       })
+      .then(function(response){
+        console.log(response);
+      }).catch(function(error){
+        console.log(error)
+      })
 
 
-function CardItem(){
 
-  const [maintainers,setMaintainers] = useState();
-
-
-  function handleOnchange(event,data){
-    console.log(event);
   }
   const customStyles = {
 
@@ -58,16 +74,27 @@ function CardItem(){
     }
   }
 
+  function handleEdit(){
+    setActive(true);
+  }
+  function handleHide(){
+    setActive(false);
+  }
+  function handleDelete(){
+   
+  }
+
     return (
-        <Card className="card-item">
-        <Card.Content>
+      <Dimmer.Dimmable as={Card} dimmed={active} className="card-item">
+        {/* <Card > */}
+        <Card.Content className="card-item-content">
           <Card.Header id="card-heading">
             <div className="card-heading-text">
-            Card Heading
+            {props.carddetails.card_title}
             </div>
 
           <div className = "card-icon"> 
-          <Icon name='delete'link aria-label="Delete" color="red"/>
+          <Icon name='delete'link aria-label="Delete" color="red" onClick ={handleEdit}/> 
           <Icon name='edit'link aria-label="Edit" color="blue" />
           </div>
           </Card.Header>
@@ -75,7 +102,7 @@ function CardItem(){
           
           <Card.Meta>Date of assignment</Card.Meta>
           <Card.Description className="card-desc">
-           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Animi ipsam aspernatur dolores inventore cumque veniam consequuntur dolorum eos quod, accusantium, assumenda incidunt nostrum neque, perferendis esse eaque aut eius excepturi.
+           {props.carddetails.card_desc}
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
@@ -84,9 +111,10 @@ function CardItem(){
         </span>
         <Select
             closeMenuOnSelect={false}
-            defaultValue={[]}
+            defaultValue={options}
             isMulti
-            options={options}
+            isSearchable
+            options={maintainers}
             theme={(theme) => ({
               ...theme,
               borderRadius: 1.25,
@@ -94,9 +122,26 @@ function CardItem(){
             styles={customStyles}
             onChange={handleOnchange}
     />
-       
+  
+          <CommentItem />
+
+         
         </Card.Content>
-      </Card>
+        <Dimmer active={active} onClickOutside={handleHide}>
+            <Header as='h2' icon inverted>
+            Are you sure you want to delete this card
+            </Header>
+            <div className='ui two buttons'>
+          <Button basic color="green" onclick={handleDelete}>
+          Delete
+          </Button>
+          <Button basic color='red'onClick={handleHide} >
+            Cancel
+          </Button>
+        </div>
+          </Dimmer>
+      {/* </Card> */}
+      </Dimmer.Dimmable>
     )
 }
 
