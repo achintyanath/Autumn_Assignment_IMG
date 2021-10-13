@@ -101,7 +101,7 @@ function EditProject(props){
         "id" : id,
         "project_name" : projectName,
         "project_desc" : projectDesc,
-        "project_maintained_by" : projectMember          
+        "project_maintained_by" : projectMember.map((maintainer)=>(maintainer.value))        
     }
     console.log(data);
     axios.put(`http://127.0.0.1:8000/TracKer/project/${id}/`, data,{

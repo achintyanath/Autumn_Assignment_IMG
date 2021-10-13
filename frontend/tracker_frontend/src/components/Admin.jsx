@@ -9,7 +9,7 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { Table} from 'semantic-ui-react'
+import { Table,Header} from 'semantic-ui-react'
 import omniportimage from "../images/index.png"
 import "../styles/admin.css";
 import Switch from "react-switch";
@@ -43,6 +43,9 @@ function Admin(props){
       <div className="something">
         {console.log(props)}
       <Navbar userDetails={props.userDetails} />
+      <div className="admin-heading">
+        <Header as ='h1' className="admin-heading-text">Admin Panel</Header> 
+      </div>
       <div className="table-div"> 
         <Table className="user-table" >
         <Table.Header>

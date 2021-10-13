@@ -54,8 +54,7 @@ function ListItem(props){
               <CardItem  carddetails ={card} projectmain= {props.projectmain}/>
              </Grid.Column>
         ))}
-        {/* </Grid>
-         */}
+
           <Dimmer active={active} onClickOutside={handleHide}>
             <Header as='h2' icon inverted>
             Are you sure you want to delete this List. This will also delete al its cards.

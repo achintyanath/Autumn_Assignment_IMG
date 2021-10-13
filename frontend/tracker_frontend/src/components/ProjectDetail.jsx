@@ -50,7 +50,7 @@ function ProjectDetail(props){
 
   return(
     <div id = "bg">
-    {/* <Navbar userDetails={props.userDetails} /> */}
+    <Navbar userDetails={props.userDetails} />
     <div className="project-detail">
     
     <Grid centered className="projectdetails-upper">
@@ -70,9 +70,10 @@ function ProjectDetail(props){
       <Grid.Column textAlign="center"> 
         <Image src={omniportimage} size="small" bordered centered />
       </Grid.Column>
-      <Grid.Column verticalAlign="middle" textAlign="center" bordered className="projectdetails-heading">
- 
+      <Grid.Column verticalAlign="middle" bordered className="projectdetails-heading">
+     <div className="pheading">
           {project&&project.project_name}
+      </div>
           
       </Grid.Column >
       <Grid.Column verticalAlign="middle" >
@@ -89,10 +90,7 @@ function ProjectDetail(props){
     </Grid.Row>
 
     <Grid.Row columns={1} className="projectdetail-desc" centered>
-      <Grid.Column textAlign="center" className="projectheading-desc">
-       
-         {project&&project.project_desc}
-      
+      <Grid.Column textAlign="center" className="projectheading-desc" dangerouslySetInnerHTML={{ __html: project&&project.project_desc}}>      
       </Grid.Column>
     </Grid.Row>
   </Grid>

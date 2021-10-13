@@ -1,10 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200&display=swap');
+.something{
+    height: 100vh;
+    width:100vw;
+}
 .user-table{
     background-color: none !important;
     width : 75vw  !important;
+    box-shadow: rgba(185, 223, 255, 0.2) 0px 7px 29px 0px  !important;
+    border-radius: 10px !important;
 }
 .table-div{
     background-color: none !important;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin: 1em;
+    padding: 1em;
+    font-family: 'Oswald', sans-serif;
+    font-size:large;
+    
+}
+
+.admin-heading{
+    text-align: center;
+
+}
+.admin-heading-text{
+    font-family: 'Inconsolata', monospace !important;
+    font-size: 4em !important;
 }

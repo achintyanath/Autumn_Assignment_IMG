@@ -105,8 +105,10 @@ function CardItem(props){
 
           
           <Card.Meta>Date of assignment</Card.Meta>
-          <Card.Description className="card-desc">
-           {props.carddetails.card_desc}
+          <Card.Description className="card-desc" dangerouslySetInnerHTML={{ __html: props.carddetails.card_desc}}>
+     
+       
+           {/* {props.carddetails.card_desc} */}
           </Card.Description>
         </Card.Content>
         <Card.Content extra>

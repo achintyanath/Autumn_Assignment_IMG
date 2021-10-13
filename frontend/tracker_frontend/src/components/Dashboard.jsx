@@ -2,24 +2,16 @@ import axios from "axios";
 import React from "react";
 import { useState, useEffect } from 'react';
 import Navbar from "./Navbar2";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from "react-router-dom";
-
-import { Grid, Image ,Item,Segment,Table,Header, Container, List, ListContent} from 'semantic-ui-react'
-import omniportimage from "../images/index.png"
-import "../styles/projectdetail.css";
-import Switch from "react-switch";
+import { Grid, Item,Header, List,Segment} from 'semantic-ui-react'
+import "../styles/dashboard.css";
 import Projectitem from "./Projectitem";
+import CardItemUser from "./CardItemUser";
 
 
 function Dashboard(props){
     const [user,setUser] = useState();
-    const [myProject,setMyProject] = useState();
-    const [myCard, setMyCard] = useState();
+    const [myProject,setMyProject] = useState([]);
+    const [myCard, setMyCard] = useState([]);
     useEffect(()=>{
       axios.get(`http://127.0.0.1:8000/TracKer/maintainer/${props.userDetails.user_id}`,{
         headers: {
@@ -94,62 +86,54 @@ function Dashboard(props){
     }, [])
 
     return(
+
         <div className="">
           <Navbar userDetails={props.userDetails} />
-          <Header>Welcome {user&&user.name}</Header>
-          <Container>
+
+          <div className="dashboard-userdetails">
+          <Header className="dashboard-heading">Welcome {user&&user.name}</Header>
+        
             <List>
-              <List.Content>
+              <List.Content className="dashboard-list-details">
                 Year : {user&&user.year}
               </List.Content>
-              <List.Content>
+              <List.Content className="dashboard-list-details">
                 Enrollment Number : {user&&user.enrollment_number}
               </List.Content>
             </List>
-          </Container>
-          <Item.Group className="item-group">
+            </div>
+            <div className="dashboard-border">
+            <Segment className = "dashboard-card-grid">
+          <div className="list-heading">
+                My Projects
+          </div>
+        </Segment>
+          <Grid className="dashboard-project-grid" >
+              <Grid.Row>
+            <Item.Group className="item-group" className="user-dashboard-grid">
                 {myProject.map((project)=>(
                     <Projectitem projectDetails={project} />
                 )) }
           </Item.Group>
-
-
-      {/* <Dimmer.Dimmable as={Grid} dimmed={active} doubling columns={5}>
-      
-        <Segment className="listdetail-heading">
-          <div className="list-heading">
-          {props.listdetails.list_name}
+          </Grid.Row>
+  
+          </Grid>
           </div>
-                 <div className = "list-icon"> 
-          <Icon name='edit'link aria-label="Edit" color="blue" size="large"/>
-          <Icon name='delete'link aria-label="Delete" color="red" size="large"  onClick ={handleDelete}/>
-
+          <div className="dashboard-border">
+          <Segment className = "dashboard-card-grid">
+          <div className="list-heading">
+                My Assigned Cards
           </div>
         </Segment>
-        {props.listdetails.card_in_list.map((card)=>(
+          <Grid className = "dashboard-card-grid" doubling columns={5}>
+          {myCard.map((card)=>(
              <Grid.Column>
                {console.log(card)}
-              <CardItem  carddetails ={card} projectmain= {props.projectmain}/>
+              <CardItemUser  carddetails ={card} />
              </Grid.Column>
-        ))} */}
-        {/* </Grid>
-         */}
-          {/* <Dimmer active={active} onClickOutside={handleHide}>
-            <Header as='h2' icon inverted>
-            Are you sure you want to delete this List. This will also delete al its cards.
-            </Header>
-            <div className='ui two buttons'>
-          <Button basic color="green" onclick={handleDelete}>
-          Delete
-          </Button>
-          <Button basic color='red'onClick={handleHide} >
-            Cancel
-          </Button>
-        </div>
-          </Dimmer>
-         </Dimmer.Dimmable> */}
-          
-        
+                ))}
+            </Grid>
+            </div>
 
         </div>
     )

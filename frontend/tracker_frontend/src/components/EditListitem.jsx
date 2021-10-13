@@ -2,19 +2,19 @@ import axios from "axios";
 import React from "react";
 import { useState, useEffect,useLocation } from 'react';
 import Navbar from "./Navbar2";
-import {
-    Button,
-    Form,
-    Message
-  } from 'semantic-ui-react'
+import {Button,Form, Message,Header} from 'semantic-ui-react'
 import { useParams } from 'react-router-dom'
+import "../styles/addproject.css";
 
 
-function EditListitem(){
+function EditListitem(props){
 
 
     const [listName,setListName] = useState();
+    const userDetails = props.userDetails;
     const [successful,setSuccessfull] = useState(false);
+    const [errormessage,setErrormessage]  = useState();
+    const [error,setError] = useState(false);
     const { id } = useParams();
 
 
@@ -68,21 +68,27 @@ function EditListitem(){
   }
   
     return(
-        <div className="bg-color">
-        {/* <Navbar userDetails={userDetails} /> */}
-     <div className="container">
-     <Form success>
+        <div className="addp-container">
+        <Navbar userDetails={userDetails}/>
+     <div className="add-container">
+     <Header size="huge"className="form-heading" >Add a New List</Header>
+     <Form success error size={13}>
      {successful? <div><Message
          success
          header='List Edited'
          content="List details were edited"
      /></div>:null}
+      {error? <div><Message
+            error
+            header='Request Failed'
+            content={errormessage}
+        /> </div>:null}
 
-       <Form.Field >
-                <label>List Name</label>
-                <input placeholder='Enter List Title' value={listName} onChange={handleChangeListName} name="list_name"/>              
+       <Form.Field size={14}>
+                <label className="label">List Name</label>
+                <input placeholder='Enter List Title' value={listName} onChange={handleChangeListName} className="input-field"/>              
         </Form.Field>
-     <Button type='submit' onClick={handleSubmit}>Edit</Button>
+     <Button type='submit' onClick={handleSubmit} className="submit-button">Edit</Button>
    </Form>
    </div>
    </div>

@@ -53,17 +53,19 @@
 }
 .projectdetails-heading{
     /* height: 100%; */
+    text-align: center !important;
     font-family: 'Courgette', cursive !important;
     font-size: 4em;
     height: 100%; 
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
+    justify-content: center !important;
+    align-content: center !important;
 
 }
 .pheading{
     height: 100% !important;
-    
+    white-space: pre-line !important;
 }
 
 .projectheading-desc{

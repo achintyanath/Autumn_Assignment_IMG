@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
+
+.dashboard-project-grid{
+    width: 100vw;
+    margin: 1em !important;
+    padding: 1em  !important;
+}
+.dashboard-card-grid{
+    
+    margin: 1em !important;
+    padding: 1em  !important;
+}
+.user-dashboard-grid{
+    width: 100vw;
+}
+
+.dashboard-userdetails{
+    margin: 1em !important;
+    /* border: 2px solid rgb(230, 230, 230); */
+    border-radius: 10px;
+    padding: 2em;
+    box-shadow: rgba(185, 223, 255, 0.2) 0px 7px 29px 0px  !important;
+}
+
+.dashboard-heading{
+    font-family: 'Architects Daughter', cursive !important;
+    font-size: 4em !important;
+}
+
+.dashboard-myproject{
+font-family: 'Comfortaa', cursive !important;
+position: relative;
+font-size: large;
+}
+.dashboard-border{
+    box-shadow: rgba(185, 223, 255, 0.2) 0px 7px 29px 0px  !important;
+}
+.dashboard-list-details{
+    font-family: 'Comfortaa', cursive !important;
+}

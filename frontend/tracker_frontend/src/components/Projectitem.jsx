@@ -19,8 +19,8 @@ function Projectitem(props){
           {/* <div id ="descrption"> */}
           <Item.Meta></Item.Meta>
           {/* </div> */}
-          <Item.Description>
-            {props.projectDetails.project_desc}
+          <Item.Description dangerouslySetInnerHTML={{ __html:  props.projectDetails.project_desc}}>
+           
           </Item.Description>
           <Item.Extra >
           <List horizontal>

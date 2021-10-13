@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import { Container, Icon, Image, Menu, Sidebar,Segment ,Dropdown} from "semantic-ui-react";
 import Avatar, { genConfig } from 'react-nice-avatar';
+import {Link} from "react-router-dom"
 import "../styles/navbar.css"
 
 
@@ -13,21 +14,21 @@ function Navbar(props){
     return (
     <Segment inverted>
     <Menu inverted pointing secondary>
-      <Menu.Item
+      <Link to={{pathname : `/project`}}>
+      <Menu.Item 
         name='Projects'
-        //active={activeItem === 'home'}
-        //onClick={this.handleItemClick}
       />
+      </Link>
+      <Link to = {{pathname : `/dashboard`}}>
       <Menu.Item
         name='Dashboard'
-        //active={activeItem === 'messages'}
-        //onClick={this.handleItemClick}
       />
+      </Link>
+      <Link to={{pathname : `/admin`}}>
       <Menu.Item
         name='Users'
-        //active={activeItem === 'friends'}
-        //onClick={this.handleItemClick}
       />
+      </Link>
     
     <Menu.Menu position="right">
         <div className = "avatar-navbar">
@@ -38,7 +39,10 @@ function Navbar(props){
       <Dropdown text={props.userDetails.user_name}>
         <Dropdown.Menu>
         <Dropdown.Item text='Logout' />
-        <Dropdown.Item text='My DashBoard' />
+        
+        <Link to ={{pathname : `/dashboard`}}>
+        <Dropdown.Item text='My Dashboard' />
+        </Link>
         </Dropdown.Menu>
   </Dropdown>
   </div>
