@@ -8,9 +8,6 @@ import "../styles/navbar.css"
 
 function Navbar(props){
 
-
-  
-  
     return (
     <Segment inverted>
     <Menu inverted pointing secondary>
@@ -26,7 +23,7 @@ function Navbar(props){
       </Link>
       <Link to={{pathname : `/admin`}}>
       <Menu.Item
-        name='Users'
+        name='Admin'
       />
       </Link>
     
@@ -39,10 +36,8 @@ function Navbar(props){
       <Dropdown text={props.userDetails.user_name}>
         <Dropdown.Menu>
         <Dropdown.Item text='Logout' />
-        
-        <Link to ={{pathname : `/dashboard`}}>
-        <Dropdown.Item text='My Dashboard' />
-        </Link>
+        <Dropdown.Item as={Link} text='My Dashboard' to ={{pathname : `/dashboard`}}/>
+       
         </Dropdown.Menu>
   </Dropdown>
   </div>

@@ -3,7 +3,7 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import Navbar from "./Navbar2";
 import {
-  BrowserRouter as Router,useParams,useLocation} from "react-router-dom";
+  BrowserRouter as Router,useParams,useLocation,useHistory} from "react-router-dom";
 import {Button,Form,Message,Header} from 'semantic-ui-react'
 import Select from 'react-select'
 import { Editor } from "@tinymce/tinymce-react";
@@ -19,6 +19,7 @@ function AddCardItem(props){
     const [errormessage,setErrormessage]  = useState();
     const [error,setError] = useState(false)
     const { id } = useParams();
+    const history = useHistory();
   
     function handleChangeCardName(event){
         setCardName(event.target.value)
@@ -55,7 +56,7 @@ function AddCardItem(props){
           })
     
            setTimeout(function() {
-           window.location = '/projects'}, 1000)
+           history.goBack()}, 2000)
          
            
       }

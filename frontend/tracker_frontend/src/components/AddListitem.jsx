@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Navbar from "./Navbar2";
 import {Button,Form,Message, Header} from 'semantic-ui-react'
 import "../styles/addproject.css";
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory, useParams} from 'react-router-dom'
 
 function AddListItem(props){
 
@@ -14,6 +14,7 @@ function AddListItem(props){
     const [errormessage,setErrormessage]  = useState();
     const [error,setError] = useState(false);
     const { id } = useParams();
+    const history = useHistory();
     function handleChangeListName(event){
         setListName(event.target.value)
       }
@@ -37,7 +38,7 @@ function AddListItem(props){
           })
     
            setTimeout(function() {
-           window.location = '/projects'}, 2000)
+           history.goBack()}, 2000)
       }
 
     return (

@@ -8,18 +8,11 @@ import {
   Route,
   Link,
   Redirect,
-  matchPath
+  matchPath,useHistory
 } from "react-router-dom";
 import "../styles/addproject.css";
 import {
-    Button,
-    Checkbox,
-    Form,
-    Input,
-    Radio,
-    TextArea,
-    Dropdown,Message, Header
-  } from 'semantic-ui-react'
+    Button, Form,Message, Header} from 'semantic-ui-react'
 import Select from 'react-select'
 import Projectitem from "./Projectitem";
 import { Editor } from "@tinymce/tinymce-react";
@@ -36,6 +29,7 @@ function Addproject(props){
     const [successful,setSuccessfull] = useState(false);
     const [errormessage,setErrormessage]  = useState();
     const [error,setError] = useState(false)
+    const history = useHistory();
     
    
   useEffect(() => {
@@ -89,9 +83,8 @@ function Addproject(props){
       .then(function(response){
         console.log(response);
         setSuccessfull(true);
-
-       setTimeout(function() {
-        window.location = '/projects'}, 1000)
+        setTimeout(function() {
+        history.goBack()}, 2000)
       })
       .catch(function (error) {
      

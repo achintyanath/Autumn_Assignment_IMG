@@ -18,7 +18,7 @@ function EditCarditem(props){
     const [errormessage,setErrormessage]  = useState();
     const [error,setError] = useState(false)
     const { id } = useParams();
-    console.log(id)
+    const history = useHistory();
     const location  = useLocation();
     const option = location.state.map((user)=>{
       return{
@@ -88,8 +88,8 @@ function EditCarditem(props){
       .then(function(response){
         console.log(response);
         setSuccessfull(true);
-        setTimeout(()=> {
-        window.location = '/projects'}, 2000)
+        setTimeout(function() {
+          history.goBack()}, 2000)
       })  
   }
 

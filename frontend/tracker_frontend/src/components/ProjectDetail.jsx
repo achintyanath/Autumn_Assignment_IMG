@@ -39,13 +39,42 @@ function ProjectDetail(props){
     .catch(function (error) {
       console.log(error);
     });
-  },[])
+  },[]);
 
-  function handleProjectEdit(){
-    console.log("jkjkj");
-    <Link to={{pathname: `/project/edit/${project&&project.id}`}} />
+  function updateOnDelete(){
+    axios.get(`http://127.0.0.1:8000/TracKer/project/${id}/`,{ //{projectid}
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+      'Content-Type': 'application/json', //the token is a variable which holds the token
+      accept :'application/json',
+    }
+   })
+  .then(function (response) {
+    // console.log(response)
+    console.log("hi project data")
+    console.log(response.data)
+    setProject(response.data);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+  };
+  function handleDelteProject(){
+    console.log("in delete");
+    axios.delete(`http://127.0.0.1:8000/TracKer/project/${id}/`,{ 
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+      'Content-Type': 'application/json', //the token is a variable which holds the token
+      accept :'application/json',
+    }
+   })
+  .then(function (response) {
+    window.location= "http://127.0.0.1:3000/project"
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
   }
-
 
 
   return(
@@ -62,7 +91,7 @@ function ProjectDetail(props){
               <Link  to={{ pathname: `/project/edit/${project&&project.id}`}}>
                 <Icon name='edit' link aria-label="Edit" color="blue" size="large"/>
               </Link>
-              <Icon name='delete' link aria-label="Delete" color="red" size="large" />
+              <Icon name='delete' link aria-label="Delete" color="red" size="large" onClick={handleDelteProject} />
 
     </div>
     </div>
@@ -99,7 +128,7 @@ function ProjectDetail(props){
       {console.log(project&&project.lists_in_project)}
       {project&&project.lists_in_project.map((list)=>(
             <Grid.Row className="projectdetail-list"> 
-        <ListItem listdetails={list} projectmain = {project&&project.project_maintained_by}/>
+        <ListItem listdetails={list} projectmain = {project&&project.project_maintained_by} update={updateOnDelete}/>
         </Grid.Row>
       ))}
          

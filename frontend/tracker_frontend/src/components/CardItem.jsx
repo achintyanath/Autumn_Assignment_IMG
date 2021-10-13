@@ -21,6 +21,7 @@ const animatedComponents = makeAnimated()
 
 
 function CardItem(props){
+  const [cards,setCards] = useState([]);
   const [active,setActive] =useState(false)
   const options = props.carddetails.card_assigned_to.map((maintainer)=>{
     return {
@@ -74,15 +75,29 @@ function CardItem(props){
     }
   }
 
-  function handleEdit(){
+  function handleDeleteDimmer(){
     setActive(true);
   }
   function handleHide(){
     setActive(false);
   }
   function handleDelete(){
-   
+    console.log("HI")
+    axios.delete(`http://127.0.0.1:8000/TracKer/card/${props.carddetails.id}/`,{ 
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+      'Content-Type': 'application/json', //the token is a variable which holds the token
+      accept :'application/json',
+    }
+   })
+  .then(function (response) {
+    props.update();
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
   }
+
 
     return (
       <Dimmer.Dimmable as={Card} dimmed={active} className="card-item">
@@ -95,7 +110,7 @@ function CardItem(props){
 
           <div className = "card-icon"> 
 
-          <Icon name='delete'link aria-label="Delete" color="red" onClick ={handleEdit}/> 
+          <Icon name='delete'link aria-label="Delete" color="red" onClick ={handleDeleteDimmer}/> 
           <Link to ={{pathname : `/card/edit/${props.carddetails.id}`, state:props.projectmain}}>  
           <Icon name='edit'link aria-label="Edit" color="blue" /> 
           </Link>
@@ -138,10 +153,10 @@ function CardItem(props){
             Are you sure you want to delete this card
             </Header>
             <div className='ui two buttons'>
-          <Button basic color="green" onclick={handleDelete}>
-          Delete
+          <Button basic color="red" onClick={handleDelete}>
+              Delete
           </Button>
-          <Button basic color='red'onClick={handleHide} >
+          <Button basic color='green'onClick={handleHide} >
             Cancel
           </Button>
         </div>

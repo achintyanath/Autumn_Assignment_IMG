@@ -3,7 +3,7 @@ import React from "react";
 import { useState, useEffect,useLocation } from 'react';
 import Navbar from "./Navbar2";
 import {Button,Form, Message,Header} from 'semantic-ui-react'
-import { useParams } from 'react-router-dom'
+import { useParams,useHistory } from 'react-router-dom'
 import "../styles/addproject.css";
 
 
@@ -16,6 +16,7 @@ function EditListitem(props){
     const [errormessage,setErrormessage]  = useState();
     const [error,setError] = useState(false);
     const { id } = useParams();
+    const history = useHistory();
 
 
     useEffect(async () => {        
@@ -62,8 +63,8 @@ function EditListitem(props){
       .then(function(response){
         console.log(response);
         setSuccessfull(true);
-        setTimeout(()=> {
-        window.location = '/projects'}, 2000)
+        setTimeout(function() {
+          history.goBack()}, 2000)
       })  
   }
   

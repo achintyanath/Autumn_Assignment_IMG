@@ -55,6 +55,7 @@ return(
               <Link to ={{pathname : `/addproject`}}>  
                  <Icon name='add' link aria-label="Edit" color="green" size="large"/>
                  </Link>
+                 
                  </div>
               </div>
               <Item.Group className="item-group">

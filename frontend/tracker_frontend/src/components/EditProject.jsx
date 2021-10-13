@@ -52,6 +52,7 @@ function EditProject(props){
     const [error,setError] = useState(false)
     const userDetails = props.userDetails;
     const { id } = useParams();
+    const history = useHistory();
     console.log(id)
     useEffect(async () => {        
         const fetchProject = async() =>{
@@ -74,6 +75,7 @@ function EditProject(props){
                     }
             })
             )
+            console.log(projectMember)
         })
           .catch(function (error) {
             console.log(error);
@@ -89,6 +91,7 @@ function EditProject(props){
   }
 
   function handlechange2(event){
+    console.log(event);
     setProjectMember(event.map((obj)=>(obj.value)))
   }
   function handleChange3(newValue, editor){
@@ -101,7 +104,7 @@ function EditProject(props){
         "id" : id,
         "project_name" : projectName,
         "project_desc" : projectDesc,
-        "project_maintained_by" : projectMember.map((maintainer)=>(maintainer.value))        
+        "project_maintained_by" : projectMember        
     }
     console.log(data);
     axios.put(`http://127.0.0.1:8000/TracKer/project/${id}/`, data,{
@@ -114,6 +117,8 @@ function EditProject(props){
       .then(function(response){
         console.log(response);
         setSuccessfull(true);
+        setTimeout(function() {
+          history.goBack()}, 2000)
       })       
   }
 
