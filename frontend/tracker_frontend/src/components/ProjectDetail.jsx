@@ -22,6 +22,7 @@ function ProjectDetail(props){
   const { id } = useParams();
   const [project,setProject]  = useState();
   const [isBusy, setBusy] = useState(true)
+  const [permission,setPermission] = useState(false)
   useEffect(()=>{
   axios.get(`http://127.0.0.1:8000/TracKer/project/${id}/`,{ //{projectid}
       headers: {
@@ -33,8 +34,21 @@ function ProjectDetail(props){
     .then(function (response) {
       // console.log(response)
       console.log("hi project data")
-      console.log(response.data)
+      // console.log(response.data)
       setProject(response.data);
+      var b = false;
+      if(props.userDetails.isAdmin){
+        b = true;
+      }
+      response.data.project_maintained_by.forEach(element => {
+          console.log(props.userDetails.user_id)
+            if(element.id===props.userDetails.user_id)  {
+              b = true;
+            }   
+      });
+      setPermission(b);
+      console.log(b)
+
     })
     .catch(function (error) {
       console.log(error);
@@ -83,7 +97,7 @@ function ProjectDetail(props){
     <div className="project-detail">
     
     <Grid centered className="projectdetails-upper">
-      <div className="projecticons-conatainer">
+    {permission?<div className="projecticons-conatainer">
       <div className="projecticons" >
               <Link to ={{pathname : `/addlist/${project&&project.id}`}}>  
                  <Icon name='add' link aria-label="Edit" color="green" size="large"/>
@@ -94,7 +108,7 @@ function ProjectDetail(props){
               <Icon name='delete' link aria-label="Delete" color="red" size="large" onClick={handleDelteProject} />
 
     </div>
-    </div>
+    </div>:null}
     <Grid.Row columns={3}>
       <Grid.Column textAlign="center"> 
         <Image src={omniportimage} size="small" bordered centered />
@@ -128,7 +142,7 @@ function ProjectDetail(props){
       {console.log(project&&project.lists_in_project)}
       {project&&project.lists_in_project.map((list)=>(
             <Grid.Row className="projectdetail-list"> 
-        <ListItem listdetails={list} projectmain = {project&&project.project_maintained_by} update={updateOnDelete}/>
+        <ListItem listdetails={list} projectmain = {project&&project.project_maintained_by} update={updateOnDelete} permission={permission}/>
         </Grid.Row>
       ))}
          

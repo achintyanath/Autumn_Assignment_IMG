@@ -108,18 +108,18 @@ function CardItem(props){
             {props.carddetails.card_title}
             </div>
 
-          <div className = "card-icon"> 
+         {props.permission? <div className = "card-icon"> 
 
           <Icon name='delete'link aria-label="Delete" color="red" onClick ={handleDeleteDimmer}/> 
           <Link to ={{pathname : `/card/edit/${props.carddetails.id}`, state:props.projectmain}}>  
           <Icon name='edit'link aria-label="Edit" color="blue" /> 
           </Link>
           
-          </div>
+          </div>:null}
           </Card.Header>
 
           
-          <Card.Meta>Date of assignment</Card.Meta>
+          {/* <Card.Meta>Date of assignment</Card.Meta> */}
           <Card.Description className="card-desc" dangerouslySetInnerHTML={{ __html: props.carddetails.card_desc}}>
      
        

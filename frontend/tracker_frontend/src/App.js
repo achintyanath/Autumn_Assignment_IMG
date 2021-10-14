@@ -25,6 +25,7 @@ import AddCardItem from './components/AddCaritem';
 import AddListItem from './components/AddListitem';
 import EditCarditem from './components/EditCartitem';
 import EditListitem from './components/EditListitem';
+import Logout from './components/Logout';
 
 function App() {
 
@@ -98,7 +99,7 @@ if(userDetails.isAuth===null){
   );
 }
 
-if(userDetails.isAuth==="done"){
+if(userDetails.isAuth=="done"){
   console.log("hi here in auth")
   if(userDetails.isLogged){
     return(
@@ -131,6 +132,9 @@ if(userDetails.isAuth==="done"){
           <Route exact path="/dashboard">
             <Dashboard userDetails ={userDetails} />
           </Route>
+          <Route exact path="/logout">
+            <Logout  userDetails={userDetails}/>
+          </Route>
           <Route exact path="/addcard/:id">
             <AddCardItem userDetails ={userDetails} />
           </Route>
@@ -143,6 +147,7 @@ if(userDetails.isAuth==="done"){
           <Route exact path="/list/edit/:id">
             <EditListitem userDetails ={userDetails} />
           </Route>
+  
         <Redirect
              to={{
                 pathname: "/project",

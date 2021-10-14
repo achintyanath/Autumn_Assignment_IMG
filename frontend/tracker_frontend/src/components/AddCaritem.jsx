@@ -1,9 +1,8 @@
 import axios from "axios";
 import React from "react";
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import Navbar from "./Navbar2";
-import {
-  BrowserRouter as Router,useParams,useLocation,useHistory} from "react-router-dom";
+import {BrowserRouter as Router,useParams,useLocation,useHistory} from "react-router-dom";
 import {Button,Form,Message,Header} from 'semantic-ui-react'
 import Select from 'react-select'
 import { Editor } from "@tinymce/tinymce-react";
@@ -23,16 +22,14 @@ function AddCardItem(props){
   
     function handleChangeCardName(event){
         setCardName(event.target.value)
-      }
+    }
    
     function handleChangeCardAssignedTo(event){
-        console.log(event)
         setCardAssignedTo(event.map((obj)=>(obj.value)));
-      }
+    }
     function handleChangeCardDesc(newValue, editor){
         setCardDesc(newValue)
-      }
-
+    }
 
     function handleSubmit(event){
         event.preventDefault();

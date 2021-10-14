@@ -12,7 +12,7 @@ function Loginauth(props){
   const code = searchParams.get('code')
   const state = searchParams.get('state')
   // const [status,setStatus]   = useState(null);
-  const userstate = {
+  var userstate = {
     user_id : null,
     user_name : null,
     isLogged :false,

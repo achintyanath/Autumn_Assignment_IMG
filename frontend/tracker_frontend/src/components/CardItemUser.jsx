@@ -39,7 +39,7 @@ function CardItemUser(props){
             {props.carddetails.card_title}
             </div>
           </Card.Header>  
-          <Card.Meta>Date of assignment</Card.Meta>
+          {/* <Card.Meta>Date of assignment</Card.Meta> */}
           <Card.Description className="card-desc" dangerouslySetInnerHTML={{ __html: props.carddetails.card_desc}}>
           </Card.Description>
         </Card.Content>

@@ -21,11 +21,11 @@ function Navbar(props){
         name='Dashboard'
       />
       </Link>
-      <Link to={{pathname : `/admin`}}>
+      {props.userDetails.isAdmin?<Link to={{pathname : `/admin`}}>
       <Menu.Item
         name='Admin'
       />
-      </Link>
+      </Link>:null}
     
     <Menu.Menu position="right">
         <div className = "avatar-navbar">
@@ -35,7 +35,7 @@ function Navbar(props){
 
       <Dropdown text={props.userDetails.user_name}>
         <Dropdown.Menu>
-        <Dropdown.Item text='Logout' />
+        <Dropdown.Item as={Link} text='Logout' to={{pathname:`/logout`}}/>
         <Dropdown.Item as={Link} text='My Dashboard' to ={{pathname : `/dashboard`}}/>
        
         </Dropdown.Menu>

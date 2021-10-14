@@ -49,7 +49,7 @@ function ListItem(props){
           <div className="list-heading">
           {props.listdetails.list_name}
           </div>
-                 <div className = "list-icon"> 
+                 {props.permission?<div className = "list-icon"> 
             <Link to ={{pathname : `/addcard/${props.listdetails.id}`,state:props.projectmain}}>  
                  <Icon name='add' link aria-label="Edit" color="green" size="large"/>
                  </Link>
@@ -58,12 +58,12 @@ function ListItem(props){
           </Link>
           <Icon name='delete' link aria-label="Delete" color="red" size="large"  onClick ={handleDeleteDimmer}/>
 
-          </div>
+          </div>:null}
         </Segment>
         {props.listdetails.card_in_list.map((card)=>(
              <Grid.Column>
                {console.log(card)}
-              <CardItem  carddetails ={card} projectmain= {props.projectmain} update = {props.update}/>
+              <CardItem  carddetails ={card} projectmain= {props.projectmain} update = {props.update} permission={props.permission}/>
              </Grid.Column>
         ))}
 

@@ -1,7 +1,6 @@
 
 from rest_framework.response import Response
 from TracKer.permission import CommentedByUser, IsAdmin, ProjectMaintainerForCard, ProjectMaintainerForList, ProjectMaintainerForProject
-
 from django import http
 from django.http.response import HttpResponse
 from django.shortcuts import redirect
@@ -15,6 +14,8 @@ from django.contrib.auth import  login, logout
 from django.core.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
+
 
 
 
@@ -95,25 +96,37 @@ class MaintainerViewSet(viewsets.ModelViewSet):
                 'access': str(refresh.access_token),
             }
         
-    @action(methods=['get'],permission_classes=[IsAdmin&IsAuthenticated],detail=True, url_path='ban', url_name='ban')
+    @action(methods=['get'],permission_classes=[IsAdmin],detail=True, url_path='ban', url_name='ban')
     def Ban(self, request, pk): 
-        maintainer_to_be_banned=Maintainer.objects.get(pk=pk)
-        maintainer_to_be_banned.disable = not maintainer_to_be_banned.disable
-        maintainer_to_be_banned.save()
-        res ={
-            "status" : "changed ban"
-        }
-        return  Response(res)
+        if(request.user.admin):
+                maintainer_to_be_banned=Maintainer.objects.get(pk=pk)
+                maintainer_to_be_banned.disable = not maintainer_to_be_banned.disable
+                maintainer_to_be_banned.save()
+                res ={
+                    "status" : "changed ban"
+                }
+                return  Response(res)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
-    @action(methods = ['get'],detail=True, url_path='changeadmin', url_name='Change Admin',permission_classes=[IsAdmin&IsAuthenticated])
+    @action(detail=True,methods = ['get'],permission_classes=[IsAdmin], url_path='changeadmin', url_name='Change Admin')
     def Change_Admin_Status(self, request, pk): 
-        maintainer_to_be_banned=Maintainer.objects.get(pk=pk)
-        maintainer_to_be_banned.admin = not maintainer_to_be_banned.admin
-        maintainer_to_be_banned.save()
-        res ={
-            "status" : "changed admin status"
-        }
-        return  Response(res) #return something else during frontend development
+        print(request.user.admin)
+        if(request.user.admin):
+            maintainer_to_be_banned=Maintainer.objects.get(pk=pk)
+            print(request.user.admin)
+            maintainer_to_be_banned.admin = not maintainer_to_be_banned.admin
+            maintainer_to_be_banned.save()
+            res ={
+                "status" : "changed admin status"
+            }
+            return  Response(res) 
+        else:
+            res={
+                "status" : "Forbidden"
+            }
+            return  Response(res,status=status.HTTP_403_FORBIDDEN) 
+        #return something else during frontend development
 
 
     @action(methods=['get'],detail = False,url_path='check',url_name='check',permission_classes=[AllowAny])

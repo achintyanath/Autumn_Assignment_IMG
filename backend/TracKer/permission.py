@@ -5,6 +5,7 @@ class IsAdmin(permissions.BasePermission):
     Check if the user is admin or not 
     """
     def has_object_permission(self, request, view, obj):
+        print(request.user.admin)
         return request.user.admin
 
 
