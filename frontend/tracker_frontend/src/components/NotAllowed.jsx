@@ -6,7 +6,7 @@ function NotAllowed(){
 
   return (
     <Message negative>
-    <Message.Header>Sorry, You dont have access to this app.</Message.Header>
+    <Message.Header>Sorry, You dont have access to this feature/app.</Message.Header>
   </Message>
   )
 }

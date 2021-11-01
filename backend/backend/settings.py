@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'TracKer',
     'corsheaders',
     'rest_framework_simplejwt',
+    'channels',
    # 'rest_framework.authtoken',
 
 ]
@@ -155,4 +156,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "TracKer.Maintainer" 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days =1),
+}
+
+# Channels
+ASGI_APPLICATION = 'backend.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
 }

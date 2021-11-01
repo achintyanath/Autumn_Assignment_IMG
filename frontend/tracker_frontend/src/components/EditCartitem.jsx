@@ -7,6 +7,7 @@ import { useHistory, useParams,useLocation } from 'react-router-dom'
 import { Editor } from "@tinymce/tinymce-react";
 import makeAnimated from 'react-select/animated';
 import Select from 'react-select'
+import NotAllowed from "./NotAllowed";
 
 function EditCarditem(props){
   
@@ -20,13 +21,14 @@ function EditCarditem(props){
     const { id } = useParams();
     const history = useHistory();
     const location  = useLocation();
+    const [permission,setPermission] = useState(true)
     const option = location.state.map((user)=>{
       return{
           label : user.name,
           value : user.id
           }
           })
-
+  
     useEffect(async () => {        
         const fetchCard = async() =>{
         await axios.get(`http://127.0.0.1:8000/TracKer/card/${id}`,{
@@ -48,6 +50,17 @@ function EditCarditem(props){
                     }
             })
             )
+            var b = false;
+            if(props.userDetails.isAdmin){
+              b = true;
+            }
+            option.forEach(element => {
+                  if(element.value===props.userDetails.user_id)  {
+                    b = true;
+                  }   
+            });
+            setPermission(b);  
+            
         })
           .catch(function (error) {
             console.log(error);
@@ -63,7 +76,7 @@ function EditCarditem(props){
   }
 
   function handleChangeCardAssignedTo(event){
-    setCardAssignedTo(event.map((obj)=>(obj.value)))
+    setCardAssignedTo(event)
   }
   function handleChangeCardDesc(newValue, editor){
     setCardDesc(newValue)
@@ -75,7 +88,7 @@ function EditCarditem(props){
         "id" : id,
         "card_title" : cardName,
         "card_desc" : cardDesc,   //no need for list_id => patch request
-        "card_assigned_to" : cardAssignedTo          
+        "card_assigned_to" : cardAssignedTo.map((user)=>(user.value))          
     }
     console.log(data);
     axios.patch(`http://127.0.0.1:8000/TracKer/card/${id}/`, data,{
@@ -108,7 +121,13 @@ function EditCarditem(props){
       return{...styles, borderRadius}
     }
   }
-  
+
+  if(!permission){
+    return(
+      <NotAllowed />
+    )
+  }
+  if(permission){
     return(
         <div className="addp-container">
         <Navbar userDetails={userDetails}/>
@@ -167,6 +186,7 @@ function EditCarditem(props){
    </div>
    </div>
     )
+          }
 }
 
 export default EditCarditem;

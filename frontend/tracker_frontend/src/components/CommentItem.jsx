@@ -17,13 +17,84 @@ import makeAnimated from 'react-select/animated';
 import Projectitem from "./Projectitem";
 import Select from 'react-select'
 import CardItem from "./CardItem";
+import WebSocketInstance from "../websockets";
 
-function CommentItem(){
+function CommentItem(props){
 
+  const [comments,setComments] = useState();
+  const [newComment, setnewComment] =useState("")
+  const cardId = props.id
+  console.log("hi")
+  console.log(cardId)
+  console.log("hi")
+
+  function waitForSocketConnection(callback) {
+    setTimeout(function() {
+      if (WebSocketInstance.state() === 1) {
+        console.log("Connection is made");
+        callback();
+        return;
+      } else {
+        console.log("wait for connection...");
+        waitForSocketConnection(callback);
+      }
+    }, 10000);
+  }
+
+  useEffect(() => {
+      console.log("hi useeffect");
+      WebSocketInstance.connect(cardId);
+      waitForSocketConnection(() => {
+        WebSocketInstance.addCallbacks(
+          getComments,
+          addComment,
+          deleteComment
+        );
+        WebSocketInstance.fetchMessages(cardId);
+      })
+      return () => {
+        WebSocketInstance.sockRef && WebSocketInstance.disconnect();
+      };
+  }, [])
+
+
+  function  getComments(comments) {
+    setComments(comments);
+  };
+
+  function  addComment (comment) {
+    setComments((existingComments) => [...existingComments, comment]);
+  }
+
+  function deleteComment (commentId) {
+    setComments((existingComments) =>
+      existingComments.filter((comment) => comment.id != commentId)
+    );
+  }
+
+
+  function handleCommentChange(event) {
+    setnewComment(event.target.value );
+  };
+  function handleCommentDelete(commentId){
+    WebSocketInstance.deleteComment(commentId);
+  }
+  
+
+   function sendMessageHandler(event) {
+    event.preventDefault();
+    const messageObject = {
+      commented_by: props.userDetails.user_id,
+      comment_desc: newComment,
+      comment_mapped_to: props.chatID
+    };
+    WebSocketInstance.newChatMessage(messageObject);
+      setnewComment("");
+  };
   return(
  <Comment.Group>
+   {console.log(comments)}
  <Comment>
-   <Comment.Avatar src='/images/avatar/small/matt.jpg' />
    <Comment.Content>
      <Comment.Author as='a'>Matt</Comment.Author>
      <Comment.Metadata>

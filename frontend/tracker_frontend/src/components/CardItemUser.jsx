@@ -59,7 +59,7 @@ function CardItemUser(props){
            )
          })}
         </List>
-        <CommentItem />
+        {/* <CommentItem /> */}
         </Card.Content>
       </Card>
     )

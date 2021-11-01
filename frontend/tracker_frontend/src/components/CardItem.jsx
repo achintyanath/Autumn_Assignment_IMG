@@ -144,7 +144,7 @@ function CardItem(props){
             onChange={handleOnchange}
     />
   
-          <CommentItem />
+           <CommentItem id ={props.carddetails.id} comments = {props.carddetails.comments_in_card} /> 
 
          
         </Card.Content>

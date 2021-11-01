@@ -15,6 +15,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { Editor } from "@tinymce/tinymce-react";
 import makeAnimated from 'react-select/animated';
 import Select from 'react-select'
+import NotAllowed from "./NotAllowed";
 const animatedComponents = makeAnimated();
 
 
@@ -53,6 +54,7 @@ function EditProject(props){
     const userDetails = props.userDetails;
     const { id } = useParams();
     const history = useHistory();
+    const [permission,setPermission] = useState(true)
     console.log(id)
     useEffect(async () => {        
         const fetchProject = async() =>{
@@ -75,6 +77,16 @@ function EditProject(props){
                     }
             })
             )
+            var b = false;
+            if(props.userDetails.isAdmin){
+              b = true;
+            }
+            data.project_maintained_by.forEach(element => {
+                  if(element.id===props.userDetails.user_id)  {
+                    b = true;
+                  }   
+            });
+            setPermission(b);            
             console.log(projectMember)
         })
           .catch(function (error) {
@@ -92,7 +104,7 @@ function EditProject(props){
 
   function handlechange2(event){
     console.log(event);
-    setProjectMember(event.map((obj)=>(obj.value)))
+    setProjectMember(event)
   }
   function handleChange3(newValue, editor){
     setProjectDesc(newValue)
@@ -104,7 +116,7 @@ function EditProject(props){
         "id" : id,
         "project_name" : projectName,
         "project_desc" : projectDesc,
-        "project_maintained_by" : projectMember        
+        "project_maintained_by" : projectMember.map((user)=>(user.value))        
     }
     console.log(data);
     axios.put(`http://127.0.0.1:8000/TracKer/project/${id}/`, data,{
@@ -137,9 +149,17 @@ function EditProject(props){
       return{...styles, borderRadius}
     }
   }
-  
+
+  if(!permission){
     return(
-        <div className="addp-container">
+      <NotAllowed />
+    )
+  }
+
+  if(permission){
+    return(
+    <div className="addp-container">
+         
         <Navbar userDetails={userDetails}/>
         <div className="add-container">
         <Header size="huge"className="form-heading" >Edit Project Details</Header>
@@ -199,7 +219,9 @@ function EditProject(props){
    </Form>
    </div>
    </div>
+          
     )
+          }
 }
 
 export default EditProject;

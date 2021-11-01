@@ -1,8 +1,6 @@
 from django.db import models
 from ckeditor.fields import RichTextField
-from django.db.models.base import Model
 from django.db.models.deletion import CASCADE
-from django.db.models.expressions import F
 from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 
 class Maintainer(AbstractBaseUser):

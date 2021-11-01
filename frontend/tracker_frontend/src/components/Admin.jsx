@@ -17,27 +17,34 @@ import Projectitem from "./Projectitem";
 import Userdetails from "./Userdetails";
 
 
-var memebers ;
-axios.get(`http://127.0.0.1:8000/TracKer/maintainer/`,{
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-      'Content-Type': 'application/json', //the token is a variable which holds the token
-      accept :'application/json',
-    }
-   })
-.then(function (response) {
-  console.log(response);    
-  memebers = response.data;
-  })
-  .catch(function (error) {
-    console.log(error);
-  }); 
 
 
 function Admin(props){
 
 
-    const [userDetail, setUserDetails]  = useState(memebers)
+  const [userDetail, setUserDetails]  = useState("")
+ 
+  useEffect(() => {
+    
+    axios.get(`http://127.0.0.1:8000/TracKer/maintainer/`,{
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+          'Content-Type': 'application/json', //the token is a variable which holds the token
+          accept :'application/json',
+        }
+      })
+    .then(function (response) {
+      console.log(response);    
+      setUserDetails(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      }); 
+
+  }, [])
+
+
+    
 
     return(
       <div className="something">
@@ -58,7 +65,8 @@ function Admin(props){
         </Table.Header>
     
         <Table.Body>
-        {userDetail.map((user)=>(
+          
+        {userDetail&&userDetail.map((user)=>(
         
                     <Userdetails details ={user}/>
                 

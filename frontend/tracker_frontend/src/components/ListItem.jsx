@@ -43,7 +43,7 @@ function ListItem(props){
   }
 
     return(   
-      <Dimmer.Dimmable as={Grid} dimmed={active} doubling columns={5}>
+      <Dimmer.Dimmable as={Grid} dimmed={active} doubling columns={5} >
         {/* <Grid doubling columns={5}> */}
         <Segment className="listdetail-heading">
           <div className="list-heading">

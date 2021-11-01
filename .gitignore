@@ -1,1 +1,4 @@
 node_modules
+env
+backend/backend/__pycache__
+backend/TracKer/__pycache__

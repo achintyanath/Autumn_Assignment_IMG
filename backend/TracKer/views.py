@@ -23,59 +23,60 @@ def login1(request):
   data = {
      'client_id' : 'EmokDB3z2HAFDN4Wr37yf0wBuzT0ZVFIYgYOcVTQ',
      'redirect_uri':'http://127.0.0.1:3000/login',
+    # 'redirect_uri':'http://127.0.0.1:8000/TracKer/home',
      'state' : 'ho_gaya_kya'
    }
   r= requests.get("https://channeli.in/oauth/authorise/",params=data)
   return redirect(r.url)
  #@action(methods=['get'],detail=False, url_path='home', url_name='home')
 
-# def home(request):
-#   code = request.GET['code']
-#   data = {
-#      'client_id' : 'EmokDB3z2HAFDN4Wr37yf0wBuzT0ZVFIYgYOcVTQ',
-#      'client_secret':'63OF6z9LJYzU81olw6MkHxehLdlRGnAEifWty1A0AGJp47ftD5eqcW7Q5CFXKgviREn5QXJuKjTnO31RaX2SV8xH9YzqKHJmbeSIZU4tt8qiyPS9fpfkjj2yJPUSEaca',
-#      'grant_type':'authorization_code',
-#      'redirect_uri':'http://127.0.0.1:8000/TracKer/home',
-#      'code':code
-#    }
+def home(request):
+  code = request.GET['code']
+  data = {
+     'client_id' : 'EmokDB3z2HAFDN4Wr37yf0wBuzT0ZVFIYgYOcVTQ',
+     'client_secret':'63OF6z9LJYzU81olw6MkHxehLdlRGnAEifWty1A0AGJp47ftD5eqcW7Q5CFXKgviREn5QXJuKjTnO31RaX2SV8xH9YzqKHJmbeSIZU4tt8qiyPS9fpfkjj2yJPUSEaca',
+     'grant_type':'authorization_code',
+     'redirect_uri':'http://127.0.0.1:8000/TracKer/home',
+     'code':code
+   }
 
-#   r= requests.post("https://channeli.in/open_auth/token/",data=data)
+  r= requests.post("https://channeli.in/open_auth/token/",data=data)
   
-#   access_token = (r.json()["access_token"])
-#   print(access_token)
-#   header= {
-#     "Authorization" : "Bearer "+access_token
-#   }
+  access_token = (r.json()["access_token"])
+  print(access_token)
+  header= {
+    "Authorization" : "Bearer "+access_token
+  }
 
-#   p = requests.get("https://channeli.in/open_auth/get_user_data/", headers=header)
+  p = requests.get("https://channeli.in/open_auth/get_user_data/", headers=header)
  
       
-#   received_data= p.json()
-#   enroll = received_data["student"]["enrolmentNumber"]
-#   try:
-#       maintainer= Maintainer.objects.get(enrollment_number = enroll)
-#       if(not maintainer.disable):
-#         print("directly herre")
-#         login(request,maintainer)
-#       else:
-#         logout(request,maintainer)
-#   except: 
-#     status = received_data["person"]["roles"]
-#     if(status[1]["role"]=="Maintainer" and status[1]["activeStatus"]=="ActiveStatus.IS_ACTIVE"):
-#         name = received_data["person"]["fullName"]
-#         year = received_data["student"]["currentYear"]
-#         isAdmin = False
-#         if(enroll=="20114000"):
-#             isAdmin = True
-#         isDisabled=False
-#         maintainer = Maintainer(name=name, enrollment_number=enroll,year = year, admin=isAdmin,disable= isDisabled)
-#         maintainer.save()
-#         print("now here")
-#         login(request, maintainer)
-#     else:
-#         return HttpResponse({"status" : "notInIMG"})
+  received_data= p.json()
+  enroll = received_data["student"]["enrolmentNumber"]
+  try:
+      maintainer= Maintainer.objects.get(enrollment_number = enroll)
+      if(not maintainer.disable):
+        print("directly herre")
+        login(request,maintainer)
+      else:
+        logout(request,maintainer)
+  except: 
+    status = received_data["person"]["roles"]
+    if(status[1]["role"]=="Maintainer" and status[1]["activeStatus"]=="ActiveStatus.IS_ACTIVE"):
+        name = received_data["person"]["fullName"]
+        year = received_data["student"]["currentYear"]
+        isAdmin = False
+        if(enroll=="20114000"):
+            isAdmin = True
+        isDisabled=False
+        maintainer = Maintainer(name=name, enrollment_number=enroll,year = year, admin=isAdmin,disable= isDisabled)
+        maintainer.save()
+        print("now here")
+        login(request, maintainer)
+    else:
+        return HttpResponse({"status" : "notInIMG"})
 
-#   return redirect("http://127.0.0.1:8000/TracKer/maintainer/")
+  return redirect("http://127.0.0.1:8000/TracKer/maintainer/")
 
 
 def logout2(request):
